@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "22631586416",
+    "project_id": "joyapp-1c552",
+    "storage_bucket": "joyapp-1c552.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:22631586416:android:9f308034ec547f27b8b2b5",
+        "android_client_info": {
+          "package_name": "com.example.joy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "22631586416-l4krm6d532l7ls4s8gi3gvmobm2agj1l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.joy",
+            "certificate_hash": "cd53e633744d093ddafb7814d84e88f0fcef60cc"
+          }
+        },
+        {
+          "client_id": "22631586416-t2llmsauvalh9lq8kk8i5iq3uck2preh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAfF3cBVs0Fa69XgZYPW9Tsc-6XsogiXAU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "22631586416-t2llmsauvalh9lq8kk8i5iq3uck2preh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

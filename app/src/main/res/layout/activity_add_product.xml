@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.AddProductActivity">
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="@color/pink">
+
+        <ImageButton
+            android:id="@+id/backBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_arrow"
+            android:background="@null"
+            android:layout_margin="15dp"/>
+
+        <TextView
+            android:id="@+id/categoryTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Flowers"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"/>
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/searchRl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="10dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="15dp"
+        android:layout_below="@id/relativeLayout">
+
+
+        <EditText
+            android:id="@+id/searchEt"
+            android:layout_width="300dp"
+            android:layout_height="42.5dp"
+            android:hint="Search"
+            android:drawableLeft="@drawable/ic_baseline_search_24"
+            android:drawablePadding="5dp"
+            android:paddingLeft="8dp"
+            android:background="@drawable/shape_rect_08"/>
+
+        <ImageButton
+            android:layout_toRightOf="@+id/searchEt"
+            android:layout_marginLeft="10dp"
+            android:layout_width="45dp"
+            android:layout_height="42.5dp"
+            android:src="@drawable/ic_baseline_search_white"
+            android:background="@drawable/shape_round_02"/>
+
+    </RelativeLayout>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/searchRl"
+        android:padding="10dp"
+        android:id="@+id/productRv"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        tools:listitem="@layout/row_product"/>
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/addProductBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:backgroundTint="@color/primary"
+        android:elevation="7dp"
+        android:paddingBottom="5dp"
+        android:src="@drawable/ic_baseline_add_24"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="14dp"
+        android:text="Add Product" />
+
+</RelativeLayout>

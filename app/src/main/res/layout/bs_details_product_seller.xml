@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/toolbarRl"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:padding="10dp">
+
+        <ImageButton
+            android:id="@+id/backBtn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="20dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_baseline_keyboard_backspace_24"
+            android:background="@null"/>
+
+        <ImageButton
+            android:id="@+id/deleteBtn"
+            android:layout_centerVertical="true"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="18dp"
+            android:src="@drawable/ic_baseline_delete_24"
+            android:background="@null"
+            android:layout_alignParentRight="true" />
+
+        <ImageButton
+            android:id="@+id/editBtn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="18dp"
+            android:src="@drawable/ic_baseline_edit_note_24"
+            android:background="@null"
+            android:layout_toLeftOf="@+id/deleteBtn"
+            android:layout_marginRight="8dp" />
+
+        <TextView
+            android:id="@+id/nameTv"
+            android:layout_width="170dp"
+            android:layout_centerVertical="true"
+            android:layout_height="30dp"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:layout_marginTop="18dp"
+            android:text="Product Details"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/primary"/>
+
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/productIconIv"
+        android:layout_width="160dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="25dp"
+        android:layout_below="@id/toolbarRl"
+        android:padding="5dp"
+        android:src="@drawable/gift1"/>
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbarRl"
+        android:layout_marginLeft="14dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="15dp"
+        android:layout_toRightOf="@+id/productIconIv"
+        android:padding="5dp">
+
+        <TextView
+            android:id="@+id/productTitleTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Abhi Kathiriya 2022"
+            android:textColor="@color/black"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/discountedPriceTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/productTitleTv"
+            android:layout_marginTop="12dp"
+            android:text="₹ 399"
+            android:textColor="@color/black"
+            android:textSize="22sp" />
+
+        <TextView
+            android:id="@+id/originalPriceTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/productTitleTv"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="7dp"
+            android:layout_toRightOf="@+id/discountedPriceTv"
+            android:text="₹500" />
+
+        <TextView
+            android:id="@+id/discountedNoteTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/originalPriceTv"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/discountedPriceTv"
+            android:text="10% OFF"
+            android:textColor="@color/primary"
+            android:textStyle="italic" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/originalPriceTv">
+
+        <RatingBar
+            android:id="@+id/ratingbar"
+            style="@style/Widget.AppCompat.RatingBar.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:backgroundTint="#FDD835" />
+
+        <TextView
+            android:id="@+id/ratingTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="12dp"
+            android:layout_toRightOf="@+id/ratingbar"
+            android:text="4.5" />
+
+        <TextView
+            android:id="@+id/RatingNum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="12dp"
+            android:layout_toRightOf="@+id/ratingTv"
+            android:text="(57)" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/productIconIv"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:id="@+id/t1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Description"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:layout_marginLeft="25dp"/>
+
+        <TextView
+            android:id="@+id/descriptionTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#979191"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:text="duyvvwvyvuyvv"
+            android:layout_below="@+id/t1"/>
+
+        <TextView
+            android:id="@+id/t2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Instruction"
+            android:layout_below="@+id/descriptionTv"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:layout_marginTop="7dp"
+            android:layout_marginLeft="25dp"/>
+
+        <TextView
+            android:id="@+id/instructionTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#B3ABAB"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:text="duyvvwvyvuyvv"
+            android:layout_below="@+id/t2"/>
+
+        <TextView
+            android:id="@+id/deliveryTimeTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/primary"
+            android:textSize="15sp"
+            android:text="khvdvhbdjvdubd"
+            android:layout_marginBottom="10dp"
+            android:layout_below="@+id/instructionTv"
+            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true"/>
+
+
+    </RelativeLayout>
+
+</RelativeLayout>

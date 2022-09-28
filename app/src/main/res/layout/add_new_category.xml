@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="150dp"
+        android:layout_height="130dp"
+        android:id="@+id/categoryIv"
+        android:layout_margin="13dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_baseline_add_photo_alternate_24"
+        android:layout_gravity="center"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Category Name"
+        android:layout_marginTop="7dp"
+        android:layout_marginLeft="30dp"
+        android:textColor="@color/primary"
+        android:textSize="15sp"/>
+
+    <EditText
+        android:id="@+id/categoryNameEt"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:textSize="18sp"
+        android:backgroundTint="@color/pink"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"/>
+
+    <Button
+        android:id="@+id/selectImageBtn"
+        android:layout_width="210dp"
+        android:layout_height="wrap_content"
+        android:text="SELECT IMAGE!"
+        android:background="@drawable/shape_round_01"
+        android:textSize="15sp"
+        android:textColor="@color/white"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"/>
+
+</LinearLayout>

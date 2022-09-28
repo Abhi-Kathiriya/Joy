@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.RegisterUserActivity">
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/pink"
+        tools:ignore="MissingConstraints">
+
+        <ImageButton
+            android:id="@+id/backBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:background="@null"
+            android:padding="15dp"
+            android:src="@drawable/ic_baseline_arrow" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="Add Product"
+            android:textColor="@color/white"
+            android:textSize="21dp"
+            android:textStyle="bold" />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/layout"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:background="@drawable/shape_rect_01"
+        android:orientation="vertical"
+        android:layout_below="@id/relativeLayout"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="0dp"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/relativeLayout">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:ignore="MissingConstraints">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                tools:ignore="MissingConstraints">
+
+                <ImageView
+                    android:id="@+id/productIconIv"
+                    android:layout_width="110dp"
+                    android:layout_height="110dp"
+                    android:layout_marginTop="20dp"
+                    android:padding="2dp"
+                    android:background="@drawable/shape_rect_05"
+                    android:layout_centerHorizontal="true"
+                    android:src="@drawable/ic_baseline_add_photo_alternate_24"/>
+
+                <LinearLayout
+                    android:id="@+id/linearLt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:padding="5dp"
+                    android:background="@drawable/shape_rect_02"
+                    android:elevation="8dp"
+                    android:orientation="vertical"
+                    tools:ignore="MissingConstraints">
+
+                    <EditText
+                        android:id="@+id/titleEt"
+                        android:hint="Title"
+                        android:padding="10dp"
+                        android:drawablePadding="5dp"
+                        android:textColorHint="#5A5A5A"
+                        android:layout_width="match_parent"
+                        android:layout_height="47dp"
+                        android:layout_marginLeft="13dp"
+                        android:layout_marginRight="13dp"
+                        android:layout_marginTop="17dp"
+                        android:inputType="text|textCapWords"
+                        android:background="@drawable/shape_rect_03"
+                        android:drawableLeft="@drawable/ic_outline_subtitles_24"/>
+
+                    <EditText
+                        android:id="@+id/descriptionEt"
+                        android:layout_width="match_parent"
+                        android:layout_height="85dp"
+                        android:layout_below="@+id/titleEt"
+                        android:layout_marginLeft="13dp"
+                        android:layout_marginRight="13dp"
+                        android:textColorHint="#5A5A5A"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/shape_rect_03"
+                        android:drawablePadding="5dp"
+                        android:hint="Description"
+                        android:inputType="text|textMultiLine"
+                        android:padding="10dp"
+                        android:drawableLeft="@drawable/ic_baseline_edit_note_24" />
+
+                    <EditText
+                        android:id="@+id/instructionEt"
+                        android:layout_width="match_parent"
+                        android:layout_height="85dp"
+                        android:layout_below="@+id/descriptionEt"
+                        android:layout_marginLeft="13dp"
+                        android:layout_marginRight="13dp"
+                        android:textColorHint="#5A5A5A"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/shape_rect_03"
+                        android:drawablePadding="5dp"
+                        android:hint="Instruction"
+                        android:inputType="text|textMultiLine"
+                        android:padding="10dp"
+                        android:drawableLeft="@drawable/ic_baseline_view_headline_24" />
+
+                    <EditText
+                        android:id="@+id/deliveryTimeEt"
+                        android:layout_width="match_parent"
+                        android:layout_height="47dp"
+                        android:layout_below="@+id/instructionEt"
+                        android:layout_marginLeft="13dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="13dp"
+                        android:background="@drawable/shape_rect_03"
+                        android:drawableLeft="@drawable/ic_baseline_delivery_dining_24"
+                        android:drawablePadding="5dp"
+                        android:hint="Delivery Time (E.G. 2 Days)"
+                        android:inputType="text"
+                        android:padding="10dp"
+                        android:textColorHint="#5A5A5A" />
+
+                    <EditText
+                        android:id="@+id/priceEt"
+                        android:layout_below="@+id/deliveryTimeEt"
+                        android:hint="Price"
+                        android:padding="10dp"
+                        android:drawablePadding="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="47dp"
+                        android:layout_marginLeft="13dp"
+                        android:textColorHint="#5A5A5A"
+                        android:layout_marginRight="13dp"
+                        android:layout_marginTop="10dp"
+                        android:inputType="numberDecimal"
+                        android:background="@drawable/shape_rect_03"
+                        android:drawableLeft="@drawable/ic_baseline_attach_money_24" />
+
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/discountSwitch"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/priceEt"
+                        android:layout_marginLeft="13dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="13dp"
+                        android:backgroundTint="@color/primary"
+                        android:text="Discount"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/discountedPriceEt"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:layout_below="@id/discountSwitch"
+                        android:layout_marginLeft="13dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="13dp"
+                        android:background="@drawable/shape_rect_03"
+                        android:drawableLeft="@drawable/ic_baseline_attach_money_24"
+                        android:drawablePadding="5dp"
+                        android:hint="Discount Price"
+                        android:textColorHint="#5A5A5A"
+                        android:inputType="numberDecimal"
+                        android:padding="10dp" />
+
+                    <EditText
+                        android:id="@+id/discountedNoteEt"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:layout_below="@id/discountedPriceEt"
+                        android:layout_marginLeft="13dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="13dp"
+                        android:background="@drawable/shape_rect_03"
+                        android:drawableLeft="@drawable/ic_baseline_attach_money_24"
+                        android:drawablePadding="5dp"
+                        android:hint="Discount Note (E.G. 10% off)"
+                        android:inputType="text"
+                        android:textColorHint="#5A5A5A"
+                        android:padding="10dp" />
+
+
+                    <Button
+                        android:id="@+id/addProductBtn"
+                        android:layout_width="220dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/shape_round_01"
+                        android:text="ADD"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:textSize="17sp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="30dp"
+                        android:layout_marginBottom="20dp"
+                        tools:ignore="MissingConstraints,NotSibling" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </RelativeLayout>
+
+</RelativeLayout>
