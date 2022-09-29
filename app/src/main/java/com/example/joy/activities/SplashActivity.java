@@ -74,8 +74,8 @@ public class SplashActivity extends AppCompatActivity {
                             }
                             else{
                                 //user is buyer
-//                                startActivity(new Intent(SplashActivity.this, MainUserActivity.class));
-//                                finish();
+                                startActivity(new Intent(SplashActivity.this, MainUserActivity.class));
+                                finish();
                                 progressBar.setVisibility(View.GONE);
 
                             }

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.RegisterSellerActivity">
+    tools:context=".activities.RegisterUserActivity">
 
     <RelativeLayout
         android:id="@+id/relativeLayout"
@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:text="Register Seller"
+            android:text="Edit Profile"
             android:textColor="@color/white"
             android:textSize="21dp"
             android:textStyle="bold" />
@@ -80,7 +80,7 @@
                     app:civ_border_color="@color/primary"
                     app:civ_border_width="3dp"
                     android:layout_centerHorizontal="true"
-                    android:src="@drawable/shopprofile"/>
+                    android:src="@drawable/person"/>
 
                 <LinearLayout
                     android:id="@+id/linearLt"
@@ -88,7 +88,6 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"
                     android:padding="5dp"
-                    android:layout_marginBottom="20dp"
                     android:background="@drawable/shape_rect_02"
                     android:elevation="8dp"
                     android:orientation="vertical"
@@ -110,28 +109,12 @@
                         android:drawableLeft="@drawable/ic_person_gray"/>
 
                     <EditText
-                        android:id="@+id/shopNameEt"
-                        android:layout_below="@+id/nameEt"
-                        android:hint="Shop Name"
-                        android:padding="10dp"
-                        android:textColorHint="#5A5A5A"
-                        android:drawablePadding="5dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="47dp"
-                        android:layout_marginLeft="13dp"
-                        android:layout_marginRight="13dp"
-                        android:layout_marginTop="10dp"
-                        android:inputType="text"
-                        android:background="@drawable/shape_rect_03"
-                        android:drawableLeft="@drawable/ic_store_gray" />
-
-                    <EditText
                         android:id="@+id/phoneEt"
                         android:layout_below="@+id/nameEt"
                         android:hint="Phone"
                         android:padding="10dp"
-                        android:textColorHint="#5A5A5A"
                         android:drawablePadding="5dp"
+                        android:textColorHint="#5A5A5A"
                         android:layout_width="match_parent"
                         android:layout_height="47dp"
                         android:layout_marginLeft="13dp"
@@ -140,22 +123,6 @@
                         android:inputType="phone"
                         android:background="@drawable/shape_rect_03"
                         android:drawableLeft="@drawable/ic_phone_gray" />
-
-                    <EditText
-                        android:id="@+id/deliveryFeeEt"
-                        android:layout_below="@+id/phoneEt"
-                        android:hint="Delivery Fee"
-                        android:padding="10dp"
-                        android:drawablePadding="5dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="47dp"
-                        android:layout_marginLeft="13dp"
-                        android:textColorHint="#5A5A5A"
-                        android:layout_marginRight="13dp"
-                        android:layout_marginTop="10dp"
-                        android:inputType="text"
-                        android:background="@drawable/shape_rect_03"
-                        android:drawableLeft="@drawable/ic_truck_gray" />
 
                     <LinearLayout
                         android:id="@+id/addressL1"
@@ -228,60 +195,13 @@
                         android:padding="10dp"
                         android:drawableLeft="@drawable/ic_location_gray" />
 
-                    <EditText
-                        android:id="@+id/emailEt"
-                        android:layout_below="@+id/addressEt"
-                        android:hint="Email"
-                        android:padding="10dp"
-                        android:drawablePadding="5dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="47dp"
-                        android:textColorHint="#5A5A5A"
-                        android:layout_marginLeft="13dp"
-                        android:layout_marginRight="13dp"
-                        android:layout_marginTop="10dp"
-                        android:inputType="textEmailAddress"
-                        android:background="@drawable/shape_rect_03"
-                        android:drawableLeft="@drawable/ic_baseline_mail" />
-
-                    <EditText
-                        android:id="@+id/passwordEt"
-                        android:layout_below="@+id/emailEt"
-                        android:hint="Password"
-                        android:padding="10dp"
-                        android:drawablePadding="5dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="47dp"
-                        android:layout_marginLeft="13dp"
-                        android:textColorHint="#5A5A5A"
-                        android:layout_marginRight="13dp"
-                        android:layout_marginTop="10dp"
-                        android:inputType="textPassword"
-                        android:background="@drawable/shape_rect_03"
-                        android:drawableLeft="@drawable/ic_baseline_vpn_key" />
-                    <EditText
-                        android:id="@+id/cpasswordEt"
-                        android:layout_below="@+id/passwordEt"
-                        android:hint="Confirm Password"
-                        android:padding="10dp"
-                        android:drawablePadding="5dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="47dp"
-                        android:textColorHint="#5A5A5A"
-                        android:layout_marginLeft="13dp"
-                        android:layout_marginRight="13dp"
-                        android:layout_marginTop="10dp"
-                        android:inputType="textPassword"
-                        android:background="@drawable/shape_rect_03"
-                        android:drawableLeft="@drawable/ic_baseline_vpn_key" />
-
 
                     <Button
-                        android:id="@+id/registerBtn"
+                        android:id="@+id/updateBtn"
                         android:layout_width="220dp"
                         android:layout_height="wrap_content"
                         android:background="@drawable/shape_round_01"
-                        android:text="Register"
+                        android:text="UPDATE"
                         android:textAllCaps="false"
                         android:textColor="@color/white"
                         android:textSize="17sp"
@@ -291,6 +211,8 @@
                         tools:ignore="MissingConstraints,NotSibling" />
 
                 </LinearLayout>
+
+
 
             </LinearLayout>
 

@@ -1,12 +1,5 @@
 package com.example.joy.activities;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SwitchCompat;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -31,6 +24,12 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
 import com.example.joy.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -51,11 +50,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-public class EditProfileSellerActivity extends AppCompatActivity {
+public class EditProfileUserActivity extends AppCompatActivity implements LocationListener {
     private ImageButton backBtn,gpsBtn;
     private ImageView profileIv;
-    private EditText nameEt,shopNameEt,phoneEt,deliveryFeeEt,countryEt,stateEt,cityEt,addressEt;
-    private SwitchCompat shopOpenSwitch;
+    private EditText nameEt,phoneEt,countryEt,stateEt,cityEt,addressEt;
     private Button updateBtn;
     //permission constants
     private static final int LOCATION_REQUEST_CODE = 100;
@@ -80,25 +78,22 @@ public class EditProfileSellerActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
 
     private LocationManager locationManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_profile_seller);
+        setContentView(R.layout.activity_edit_profile_user);
+        //init ui views
         backBtn = (ImageButton) findViewById(R.id.backBtn);
-        gpsBtn = (ImageButton) findViewById(R.id.gpsBtn);
-        backBtn = (ImageButton)findViewById(R.id.backBtn);
-        profileIv=(ImageView) findViewById(R.id.profileIv);
         nameEt = (EditText) findViewById(R.id.nameEt);
-        shopNameEt=(EditText) findViewById(R.id.shopNameEt);
-        phoneEt=(EditText) findViewById(R.id.phoneEt);
-        deliveryFeeEt=(EditText)findViewById(R.id.deliveryFeeEt) ;
-        countryEt=(EditText)findViewById(R.id.countryEt) ;
-        stateEt=(EditText)findViewById(R.id.stateEt) ;
-        cityEt=(EditText)findViewById(R.id.cityEt) ;
-        addressEt=(EditText)findViewById(R.id.addressEt) ;
-        shopOpenSwitch=(SwitchCompat) findViewById(R.id.shopOpenSwitch);
-        updateBtn=(Button) findViewById(R.id.updateBtn);
-
+        gpsBtn = (ImageButton) findViewById(R.id.gpsBtn);
+        phoneEt = (EditText) findViewById(R.id.phoneEt);
+        countryEt = (EditText) findViewById(R.id.countryEt);
+        stateEt = (EditText) findViewById(R.id.stateEt);
+        cityEt = (EditText) findViewById(R.id.cityEt);
+        addressEt = (EditText) findViewById(R.id.addressEt);
+        updateBtn = (Button) findViewById(R.id.updateBtn);
+        profileIv=(ImageView) findViewById(R.id.profileIv);
         //init permission arrays
         locationPermissions = new String[]{Manifest.permission.ACCESS_FINE_LOCATION};
         cameraPermissions = new String[]{Manifest.permission.CAMERA,Manifest.permission.WRITE_EXTERNAL_STORAGE};
@@ -110,6 +105,7 @@ public class EditProfileSellerActivity extends AppCompatActivity {
 
         firebaseAuth = FirebaseAuth.getInstance();
         checkUser();
+
 
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -149,19 +145,16 @@ public class EditProfileSellerActivity extends AppCompatActivity {
             }
         });
     }
-    private String name,shopName, phone, deliveryFee, country, state, city,address;
-    private  boolean shopOpen;
+    private String name, phone,  country, state, city,address;
+
     private void inputData() {
         //input data
         name = nameEt.getText().toString().trim();
-        shopName = shopNameEt.getText().toString().trim();
         phone = phoneEt.getText().toString().trim();
-        deliveryFee = deliveryFeeEt.getText().toString().trim();
         country = countryEt.getText().toString().trim();
         state = stateEt.getText().toString().trim();
         city = cityEt.getText().toString().trim();
         address = addressEt.getText().toString().trim();
-        shopOpen = shopOpenSwitch.isChecked(); //true or false
 
         updateProfile();
     }
@@ -176,26 +169,23 @@ public class EditProfileSellerActivity extends AppCompatActivity {
             //set up data to update
             HashMap<String, Object> hashMap = new HashMap<>();
             hashMap.put("name", "" + name);
-            hashMap.put("shopName", "" + shopName);
             hashMap.put("phone", "" + phone);
-            hashMap.put("deliveryFee", "" + deliveryFee);
             hashMap.put("country", "" + country);
             hashMap.put("state", "" + state);
             hashMap.put("city", "" + city);
             hashMap.put("address", "" + address);
-            hashMap.put("shopOpen", "" + shopOpen);
             hashMap.put("latitude", "" + latitude);
             hashMap.put("longitude", "" + longitude);
 
             //update to db
-            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
-            reference.child(firebaseAuth.getUid()).updateChildren(hashMap)
+            DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
+            ref.child(firebaseAuth.getUid()).updateChildren(hashMap)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
                             //updated
                             progressDialog.dismiss();
-                            Toast.makeText(EditProfileSellerActivity.this, "Profile Updated...", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(EditProfileUserActivity.this, "Profile Updated...", Toast.LENGTH_SHORT).show();
 
                         }
                     })
@@ -204,7 +194,7 @@ public class EditProfileSellerActivity extends AppCompatActivity {
                         public void onFailure(@NonNull Exception e) {
                             //failed to update
                             progressDialog.dismiss();
-                            Toast.makeText(EditProfileSellerActivity.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(EditProfileUserActivity.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
         }
@@ -228,16 +218,13 @@ public class EditProfileSellerActivity extends AppCompatActivity {
                                 //set up data to update
                                 HashMap<String, Object> hashMap = new HashMap<>();
                                 hashMap.put("name", "" + name);
-                                hashMap.put("shopName", "" + shopName);
                                 hashMap.put("phone", "" + phone);
-                                hashMap.put("deliveryFee", "" + deliveryFee);
                                 hashMap.put("country", "" + country);
                                 hashMap.put("state", "" + state);
                                 hashMap.put("city", "" + city);
                                 hashMap.put("address", "" + address);
                                 hashMap.put("latitude", "" + latitude);
                                 hashMap.put("longitude", "" + longitude);
-                                hashMap.put("shopOpen", "" + shopOpen);
                                 hashMap.put("profileImage", "" + downloadImageUri);
 
                                 //update to db
@@ -248,7 +235,7 @@ public class EditProfileSellerActivity extends AppCompatActivity {
                                             public void onSuccess(Void aVoid) {
                                                 //updated
                                                 progressDialog.dismiss();
-                                                Toast.makeText(EditProfileSellerActivity.this, "Profile Updated...", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(EditProfileUserActivity.this, "Profile Updated...", Toast.LENGTH_SHORT).show();
 
                                             }
                                         })
@@ -257,7 +244,7 @@ public class EditProfileSellerActivity extends AppCompatActivity {
                                             public void onFailure(@NonNull Exception e) {
                                                 //failed to update
                                                 progressDialog.dismiss();
-                                                Toast.makeText(EditProfileSellerActivity.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(EditProfileUserActivity.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
                                             }
                                         });
                             }
@@ -268,20 +255,19 @@ public class EditProfileSellerActivity extends AppCompatActivity {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             progressDialog.dismiss();
-                            Toast.makeText(EditProfileSellerActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(EditProfileUserActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
 
                         }
                     });
         }
 
     }
-
     private void checkUser() {
         FirebaseUser user = firebaseAuth.getCurrentUser();
         if(user == null)
         {
-            //   startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-            // finish();
+            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+            finish();
         }
         else{
             loadMyInfo();
@@ -301,7 +287,6 @@ public class EditProfileSellerActivity extends AppCompatActivity {
                             String city = ""+ds.child("city").getValue();
                             String state = ""+ds.child("state").getValue();
                             String country = ""+ds.child("country").getValue();
-                            String deliveryFee = ""+ds.child("deliveryFee").getValue();
                             String email = ""+ds.child("email").getValue();
                             latitude = Double.parseDouble(""+ds.child("latitude").getValue());
                             longitude = Double.parseDouble(""+ds.child("longitude").getValue());
@@ -310,8 +295,6 @@ public class EditProfileSellerActivity extends AppCompatActivity {
                             String phone = ""+ds.child("phone").getValue();
                             String profileImage = ""+ds.child("profileImage").getValue();
                             String timestamp = ""+ds.child("timestamp").getValue();
-                            String shopName = ""+ds.child("shopName").getValue();
-                            String shopOpen = ""+ds.child("shopOpen").getValue();
                             String uid = ""+ds.child("uid").getValue();
 
                             nameEt.setText(name);
@@ -320,20 +303,12 @@ public class EditProfileSellerActivity extends AppCompatActivity {
                             stateEt.setText(state);
                             cityEt.setText(city);
                             addressEt.setText(address);
-                            shopNameEt.setText(shopName);
-                            deliveryFeeEt.setText(deliveryFee);
-                            if(shopOpen.equals("true")){
-                                shopOpenSwitch.setChecked(true);
 
-                            }
-                            else{
-                                shopOpenSwitch.setChecked(false);
-                            }
                             try {
-                                Picasso.get().load(profileImage).placeholder(R.drawable.shopprofile).into(profileIv);
+                                Picasso.get().load(profileImage).placeholder(R.drawable.person).into(profileIv);
                             }
                             catch (Exception e){
-                                profileIv.setImageResource(R.drawable.shopprofile);
+                                profileIv.setImageResource(R.drawable.person);
                             }
                         }
                     }
@@ -344,8 +319,6 @@ public class EditProfileSellerActivity extends AppCompatActivity {
                     }
                 });
     }
-
-
     private void showImagePickDialog() {
         //options to display in dialog
         String[] options = {"Camera", "Gallery"};
@@ -439,7 +412,7 @@ public class EditProfileSellerActivity extends AppCompatActivity {
     private void detectLocation() {
         Toast.makeText(this, "Please wait...", Toast.LENGTH_SHORT).show();
         locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE) ;
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,0,0,this::onLocationChanged);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,0 ,0,this);
     }
 
     private void findAddress() {
@@ -475,14 +448,13 @@ public class EditProfileSellerActivity extends AppCompatActivity {
     public void onStatusChanged(String provider, int status, Bundle extras){
 
     }
-
     public  void onProviderEnabled( String provider)
     {
 
     }
-
     public  void onProviderDisabled(String provider){
         Toast.makeText(this, "Location is disabled...", Toast.LENGTH_SHORT).show();
+
     }
 
     public  void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults){
@@ -551,3 +523,4 @@ public class EditProfileSellerActivity extends AppCompatActivity {
     }
 
 }
+

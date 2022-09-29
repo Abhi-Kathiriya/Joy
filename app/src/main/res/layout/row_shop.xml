@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/shap_rect_10"
+    android:elevation="7dp"
+    android:layout_margin="10dp">
+
+
+        <ImageView
+            android:id="@+id/shopIv"
+            android:layout_width="100dp"
+            android:layout_height="120dp"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="5dp"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
+            android:src="@drawable/shop"
+            android:layout_marginRight="5dp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="10dp"
+            android:layout_toEndOf="@+id/shopIv"
+            android:layout_toRightOf="@+id/shopIv">
+
+
+            <TextView
+                android:id="@+id/shopNameTv"
+                android:layout_marginTop="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Shop name"
+                android:textSize="17dp"
+                android:textColor="@color/black"
+                android:textStyle="bold"/>
+
+            <RatingBar
+                android:id="@+id/ratingBar"
+                style="@style/Widget.AppCompat.RatingBar.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:numStars="5"
+                android:progressBackgroundTint="#FFFF00"
+                android:progressTint="#FFFF00"
+                android:layout_marginTop="2dp"
+                android:layout_below="@+id/shopNameTv"
+                android:layout_marginLeft="0dp"/>
+
+            <TextView
+                android:id="@+id/addressTv"
+                android:layout_marginTop="5dp"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:text="Lorem ipsum dolor amet, consectetur adipiscing elit. Pellentesque arcu, Gujarat."
+                android:textColor="#959595"
+                android:textSize="13dp"
+                android:minLines="2"
+                android:maxLines="3"
+                android:layout_below="@+id/ratingBar"/>
+
+
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/nextIv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:src="@drawable/ic_baseline_navigate_next_24"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"/>
+
+
+</RelativeLayout>

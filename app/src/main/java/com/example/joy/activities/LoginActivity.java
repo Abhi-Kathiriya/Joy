@@ -162,8 +162,8 @@ public class LoginActivity extends AppCompatActivity {
                             else{
                                 progressDialog.dismiss();
                                 //user is buyer
-//                                startActivity(new Intent(LoginActivity.this, MainUserActivity.class));
-//                                finish();
+                                startActivity(new Intent(LoginActivity.this, MainUserActivity.class));
+                                finish();
 
                             }
                         }

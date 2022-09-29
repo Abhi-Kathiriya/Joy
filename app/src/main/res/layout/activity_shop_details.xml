@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activities.ShopDetailsActivity">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="14dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginRight="14dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/shopNameTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:paddingTop="5dp"
+            android:text="Joy Gift Center"
+            android:textColor="@color/black"
+            android:textSize="24dp"
+            android:textStyle="bold" />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="14dp"
+        android:id="@+id/shopDetailRl">
+
+
+        <TextView
+            android:id="@+id/addressTv"
+            android:layout_width="220dp"
+            android:layout_marginTop="7dp"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_location_gray"
+            android:drawablePadding="6dp"
+            android:text="near a iscon temple,Anand"
+            android:textSize="15dp" />
+
+        <ImageView
+            android:id="@+id/openCloseTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="30dp"
+            android:src="@drawable/open">
+        </ImageView>
+
+        <RatingBar
+            android:id="@+id/ratingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/Widget.AppCompat.RatingBar.Small"
+            android:layout_below="@+id/openCloseTv"
+            android:progressBackgroundTint="#FFFF00"
+            android:progressTint="#FFFF00"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="30dp"
+            android:rating="5" />
+
+
+        <TextView
+            android:id="@+id/phoneTv"
+            android:layout_width="220dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/addressTv"
+            android:layout_marginTop="5dp"
+            android:drawableLeft="@drawable/ic_phone_gray"
+            android:drawablePadding="6dp"
+            android:paddingLeft="5dp"
+            android:text="+91 9999999999"
+            android:textSize="15dp" />
+
+<!--        <TextView-->
+<!--            android:id="@+id/emailTv"-->
+<!--            android:layout_width="320dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_below="@+id/phoneTv"-->
+<!--            android:layout_marginTop="4dp"-->
+<!--            android:drawableLeft="@drawable/ic_baseline_mail_outline_24"-->
+<!--            android:drawablePadding="6dp"-->
+<!--            android:paddingLeft="5dp"-->
+<!--            android:paddingTop="2dp"-->
+<!--            android:text="abc@gmail.com"-->
+<!--            android:textSize="15dp" />-->
+
+        <TextView
+            android:id="@+id/deliveryFeeTv"
+            android:layout_width="245dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/phoneTv"
+            android:layout_marginTop="4dp"
+            android:paddingLeft="7dp"
+            android:paddingTop="2dp"
+            android:drawablePadding="6dp"
+            android:drawableLeft="@drawable/ic_truck_gray"
+            android:text="Delivery Fees : 50"
+            android:textSize="15dp" />
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:id="@+id/layout1"
+        android:layout_marginTop="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/categoryGl"
+        android:layout_width="match_parent"
+        android:padding="10dp"
+        android:background="@drawable/shap_rect_10"
+        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        tools:listitem="@layout/category_grid"/>
+
+        <ImageView
+            android:layout_below="@id/categoryGl"
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_local_offer_24"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="15dp"/>
+
+        <TextView
+            android:layout_width="111dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="-1dp"
+            android:layout_marginTop="15dp"
+            android:layout_toRightOf="@+id/imageView"
+            android:text="Today's offer"
+            android:layout_below="@+id/categoryGl"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+    </ScrollView>
+
+
+</LinearLayout>

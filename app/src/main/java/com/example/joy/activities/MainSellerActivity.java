@@ -76,8 +76,6 @@ public class MainSellerActivity extends AppCompatActivity implements NavigationV
     private ArrayList<ModelCategory> categoryList;
     private AdapterCategory adapterCategory;
 
-    private ArrayList<ModelProduct> productList;
-    private AdapterProductSeller adapterProductSeller;
 
     //permission constants
     private static final int CAMERA_REQUEST_CODE = 200;
