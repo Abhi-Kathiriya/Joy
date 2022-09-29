@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -91,6 +93,9 @@ public class AddProductActivity extends AppCompatActivity {
                         //setup adapter
                         adapterProductSeller = new AdapterProductSeller(AddProductActivity.this, productList);
                         //set adapter
+                        LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(productRv.getContext(),
+                                R.anim.layout_fall_down);
+                        productRv.setLayoutAnimation(controller);
                         productRv.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
                         productRv.setAdapter(adapterProductSeller);
                     }

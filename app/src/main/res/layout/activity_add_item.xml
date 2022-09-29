@@ -161,7 +161,7 @@
                         android:layout_marginTop="10dp"
                         android:inputType="numberDecimal"
                         android:background="@drawable/shape_rect_03"
-                        android:drawableLeft="@drawable/ic_baseline_attach_money_24" />
+                        android:drawableLeft="@drawable/rupee" />
 
 
                     <androidx.appcompat.widget.SwitchCompat
@@ -186,7 +186,7 @@
                         android:layout_marginTop="10dp"
                         android:layout_marginRight="13dp"
                         android:background="@drawable/shape_rect_03"
-                        android:drawableLeft="@drawable/ic_baseline_attach_money_24"
+                        android:drawableLeft="@drawable/rupee"
                         android:drawablePadding="5dp"
                         android:hint="Discount Price"
                         android:textColorHint="#5A5A5A"
@@ -202,7 +202,7 @@
                         android:layout_marginTop="10dp"
                         android:layout_marginRight="13dp"
                         android:background="@drawable/shape_rect_03"
-                        android:drawableLeft="@drawable/ic_baseline_attach_money_24"
+                        android:drawableLeft="@drawable/rupee"
                         android:drawablePadding="5dp"
                         android:hint="Discount Note (E.G. 10% off)"
                         android:inputType="text"

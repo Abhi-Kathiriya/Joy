@@ -191,10 +191,10 @@ public class EditProductSellerActivity extends AppCompatActivity {
                         discountedPriceEt.setText(discountPrice);
 
                         try {
-                            Picasso.get().load(productIcon).placeholder(R.drawable.ic_baseline_add_photo_alternate_24).into(productIconIv);
+                            Picasso.get().load(productIcon).placeholder(R.drawable.ic_baseline_add_photo_alternate_white).into(productIconIv);
                         }
                         catch (Exception e){
-                            productIconIv.setBackgroundResource(R.drawable.ic_baseline_add_photo_alternate_24);
+                            productIconIv.setBackgroundResource(R.drawable.ic_baseline_add_photo_alternate_white);
                         }
                     }
 

@@ -92,12 +92,6 @@ public class AdapterProductSeller extends RecyclerView.Adapter<AdapterProductSel
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(context, MainSellerActivity.class);
-                intent.putExtra("productId",id);
-                intent.putExtra("categoryId",cId);
-                context.startActivity(intent);
-
-
             if (favourite.equals("false")){
                 addToFav(cId,timestamp);
                 //holder.favouriteIb.setImageResource(R.drawable.ic_baseline_favorite_24);
