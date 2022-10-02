@@ -37,6 +37,7 @@ public class AdapterProductSeller extends RecyclerView.Adapter<AdapterProductSel
     private Context context;
     public ArrayList<ModelProduct> productList;
 
+
     public AdapterProductSeller(Context context, ArrayList<ModelProduct> productList) {
         this.context = context;
         this.productList = productList;
@@ -93,7 +94,7 @@ public class AdapterProductSeller extends RecyclerView.Adapter<AdapterProductSel
             public void onClick(View v) {
 
             if (favourite.equals("false")){
-                addToFav(cId,timestamp);
+                addToFav(cId,timestamp,id,uid,discountAvailable,deliveryTime,discountNote,discountPrice,productDescription,icon,title,instruction,originalPrice);
                 //holder.favouriteIb.setImageResource(R.drawable.ic_baseline_favorite_24);
               }
              else if(favourite.equals("true")){
@@ -142,8 +143,7 @@ public class AdapterProductSeller extends RecyclerView.Adapter<AdapterProductSel
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        //status updated
-                        //Toast.makeText(context, "bye", Toast.LENGTH_SHORT).show();
+                        remove(id);
 
                     }
                 })
@@ -155,7 +155,66 @@ public class AdapterProductSeller extends RecyclerView.Adapter<AdapterProductSel
                 });
     }
 
-    private void addToFav(String cId,String id) {
+    private void remove(String id) {
+
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users");
+        reference.child(firebaseAuth.getUid()).child("favourite").child(id).removeValue()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        //failed deleting product
+                        Toast.makeText(context,""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+    }
+
+
+    private void addToFav(String cId, String timestamp, String id, String uid, String discountAvailable, String deliveryTime, String discountNote, String discountPrice, String productDescription, String icon, String title, String instruction, String originalPrice) {
+
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("favourite", "true");
+        hashMap.put("productId", ""+id);
+        hashMap.put("categoryId", ""+cId);
+        hashMap.put("productTitle", ""+title);
+        hashMap.put("productDescription", ""+productDescription);
+        hashMap.put("productInstruction", ""+instruction);
+        hashMap.put("productIcon", ""+icon);//no image, empty set
+        hashMap.put("originalPrice", ""+originalPrice);
+        hashMap.put("discountPrice", ""+discountPrice);
+        hashMap.put("discountNote", ""+discountNote);
+        hashMap.put("discountAvailable", ""+discountAvailable);
+        hashMap.put("deliveryTime", ""+deliveryTime);
+        hashMap.put("timestamp", ""+timestamp);
+        hashMap.put("uid", ""+uid);
+
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users");
+        reference.child(firebaseAuth.getUid()).child("favourite").child(id)
+                .setValue(hashMap)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                       addtoFavourite(cId,id);
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(context, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void addtoFavourite(String cId, String id) {
 
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("favourite", "true");
@@ -167,8 +226,6 @@ public class AdapterProductSeller extends RecyclerView.Adapter<AdapterProductSel
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        //status updated
-                        //Toast.makeText(context, "hiiii", Toast.LENGTH_SHORT).show();
 
                     }
                 })
@@ -272,7 +329,8 @@ public class AdapterProductSeller extends RecyclerView.Adapter<AdapterProductSel
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 //delete
-                                deleteProduct(id,cId);//id is the product id
+                                deleteProduct(id,cId);
+                                remove(id);//id is the product id
                             }
                         })
                         .setNegativeButton("NO", new DialogInterface.OnClickListener() {

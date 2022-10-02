@@ -2,11 +2,9 @@ package com.example.joy.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.AnimationUtils;
@@ -16,8 +14,9 @@ import android.widget.TextView;
 
 import com.example.joy.R;
 import com.example.joy.adapter.AdapterProductSeller;
+import com.example.joy.adapter.AdapterProductUser;
 import com.example.joy.model.ModelProduct;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.example.joy.model.ModelShop;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -27,26 +26,25 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class AddProductActivity extends AppCompatActivity {
+public class ShopProductActivity extends AppCompatActivity {
 
-    private FloatingActionButton addProductBtn;
     private ImageButton backBtn;
     private TextView categoryTitle;
     private RecyclerView productRv;
 
     private FirebaseAuth firebaseAuth;
     private ArrayList<ModelProduct> productList;
-    private AdapterProductSeller adapterProductSeller;
+    private ArrayList<ModelShop> shopsList;
+    private AdapterProductUser adapterProductUser;
 
-    String categoryName,cId;
+    String categoryName,cId,shopId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_product);
+        setContentView(R.layout.activity_shop_product);
 
         backBtn = findViewById(R.id.backBtn);
-        addProductBtn = findViewById(R.id.addProductBtn);
         categoryTitle = findViewById(R.id.categoryTitle);
         productRv = findViewById(R.id.productRv);
 
@@ -54,7 +52,8 @@ public class AddProductActivity extends AppCompatActivity {
 
         categoryName = getIntent().getStringExtra("categoryTitle");
         cId = getIntent().getStringExtra("categoryId");
-        
+        shopId = getIntent().getStringExtra("shopUid");
+
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,16 +61,8 @@ public class AddProductActivity extends AppCompatActivity {
             }
         });
 
+        //System.out.println(shopId);
         categoryTitle.setText(categoryName);
-
-        addProductBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(AddProductActivity.this, AddItemActivity.class);
-                intent.putExtra("categoryId",cId);
-                startActivity(intent);
-            }
-        });
 
         loadAllProducts();
     }
@@ -81,7 +72,7 @@ public class AddProductActivity extends AppCompatActivity {
         productList = new ArrayList<>();
         //get all products
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
-        reference.child(firebaseAuth.getUid()).child("category").child(cId).child("products").orderByChild("categoryId").equalTo(cId)
+        reference.child(shopId).child("category").child(cId).child("products").orderByChild("categoryId").equalTo(cId)
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -91,13 +82,13 @@ public class AddProductActivity extends AppCompatActivity {
                             productList.add(modelProduct);
                         }
                         //setup adapter
-                        adapterProductSeller = new AdapterProductSeller(AddProductActivity.this, productList);
+                        adapterProductUser = new AdapterProductUser(ShopProductActivity.this, productList);
                         //set adapter
                         LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(productRv.getContext(),
                                 R.anim.layout_fall_down);
                         productRv.setLayoutAnimation(controller);
                         productRv.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
-                        productRv.setAdapter(adapterProductSeller);
+                        productRv.setAdapter(adapterProductUser);
                     }
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -105,7 +96,5 @@ public class AddProductActivity extends AppCompatActivity {
                     }
                 });
     }
-
-
 
 }

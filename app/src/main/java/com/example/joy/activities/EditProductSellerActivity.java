@@ -279,6 +279,7 @@ public class EditProductSellerActivity extends AppCompatActivity {
                             //update success
                             progressDialog.dismiss();
                             Toast.makeText(EditProductSellerActivity.this,"Updated...",Toast.LENGTH_SHORT).show();
+                            updateFav();
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -331,6 +332,7 @@ public class EditProductSellerActivity extends AppCompatActivity {
                                                 //update success
                                                 progressDialog.dismiss();
                                                 Toast.makeText(EditProductSellerActivity.this,"Updated...",Toast.LENGTH_SHORT).show();
+                                                updateFav1(downloadImageUri);
                                             }
                                         })
                                         .addOnFailureListener(new OnFailureListener() {
@@ -353,6 +355,79 @@ public class EditProductSellerActivity extends AppCompatActivity {
                         }
                     });
         }
+    }
+
+    private void updateFav() {
+
+        HashMap<String, Object> hashMap=new HashMap<>();
+        hashMap.put("productTitle",""+ productTitle);
+        hashMap.put("productDescription",""+ productDescription);
+        hashMap.put("productInstruction",""+ productInstruction);
+        hashMap.put("originalPrice",""+ originalPrice);
+        hashMap.put("discountPrice",""+ discountPrice);
+        hashMap.put("deliveryTime",""+ deliveryTime);
+        hashMap.put("discountNote",""+ discountNote);
+        hashMap.put("discountAvailable",""+ discountAvailable);
+
+        //update to db
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users");
+        reference.child(firebaseAuth.getUid()).child("favourite").child(productId)
+                .updateChildren(hashMap)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        //update success
+                        //progressDialog.dismiss();
+                        //Toast.makeText(EditProductSellerActivity.this,"Updated...",Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        //update failed
+                        //progressDialog.dismiss();
+                        //Toast.makeText(EditProductSellerActivity.this,""+e.getMessage(),Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+
+    }
+
+    private void updateFav1(Uri downloadImageUri) {
+
+        HashMap<String, Object>hashMap=new HashMap<>();
+        hashMap.put("productTitle",""+ productTitle);
+        hashMap.put("productDescription",""+ productDescription);
+        hashMap.put("productInstruction",""+ productInstruction);
+        hashMap.put("productIcon",""+ downloadImageUri);
+        hashMap.put("originalPrice",""+ originalPrice);
+        hashMap.put("deliveryTime",""+ deliveryTime);
+        hashMap.put("discountPrice",""+ discountPrice);
+        hashMap.put("discountNote",""+ discountNote);
+        hashMap.put("discountAvailable",""+ discountAvailable);
+
+        //update to db
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users");
+        reference.child(firebaseAuth.getUid()).child("favourite").child(productId)
+                .updateChildren(hashMap)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        //update success
+                        //progressDialog.dismiss();
+                        //Toast.makeText(EditProductSellerActivity.this,"Updated...",Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        //update failed
+                        //progressDialog.dismiss();
+                        //Toast.makeText(EditProductSellerActivity.this,""+e.getMessage(),Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+
     }
 
 

@@ -53,13 +53,13 @@
         android:layout_marginTop="15dp"/>
 
             <TextView
-                android:layout_width="111dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/layout1"
-                android:layout_marginLeft="-1dp"
+                android:paddingLeft="5dp"
                 android:layout_marginTop="15dp"
                 android:layout_toRightOf="@+id/imageView"
-                android:text="Today's offer"
+                android:text="Top Picks "
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold" />

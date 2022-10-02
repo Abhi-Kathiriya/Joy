@@ -15,26 +15,27 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.joy.R;
-import com.example.joy.activities.AddProductActivity;
+import com.example.joy.activities.ShopProductActivity;
 import com.example.joy.model.ModelCategory;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.example.joy.model.ModelShop;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class AdapterCategoryUser extends RecyclerView.Adapter<AdapterCategoryUser.HolderCategory> {
+public class AdapterCategoryUser extends RecyclerView.Adapter<AdapterCategoryUser.HolderCategory>{
 
     private Context context;
     public ArrayList<ModelCategory> categoryList;
+    public ArrayList<ModelShop> shopsList;
 
-    public AdapterCategoryUser(Context context, ArrayList<ModelCategory> categoryList) {
+
+    public AdapterCategoryUser(Context context, ArrayList<ModelCategory> categoryList, ArrayList<ModelShop> shopsList) {
         this.context = context;
         this.categoryList = categoryList;
+        this.shopsList = shopsList;
     }
+
+
 
     @NonNull
     @Override
@@ -45,10 +46,14 @@ public class AdapterCategoryUser extends RecyclerView.Adapter<AdapterCategoryUse
     }
 
     @Override
-    public void onBindViewHolder(@NonNull HolderCategory holder, int position) {
+    public void onBindViewHolder(@NonNull HolderCategory holder, final int position) {
         //get data
+
+
         final ModelCategory modelCategory = categoryList.get(position);
+        //final ModelShop modelShop = shopsList.get(position);
         String categoryId = modelCategory.getCategoryId();
+        //String uid = modelCategory.getUid();
         String uid = modelCategory.getUid();
         String categoryTitle = modelCategory.getCategoryTitle();
         String icon = modelCategory.getProductIcon();
@@ -65,10 +70,10 @@ public class AdapterCategoryUser extends RecyclerView.Adapter<AdapterCategoryUse
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, AddProductActivity.class);
+                Intent intent = new Intent(context, ShopProductActivity.class);
                 intent.putExtra("categoryId",categoryId);
                 intent.putExtra("categoryTitle",categoryTitle);
-                //intent.putExtra("uid",uid);
+                intent.putExtra("shopUid",uid);
                 context.startActivity(intent);
             }
         });
@@ -81,6 +86,7 @@ public class AdapterCategoryUser extends RecyclerView.Adapter<AdapterCategoryUse
     public int getItemCount() {
         return categoryList.size();
     }
+
 
     public class HolderCategory extends RecyclerView.ViewHolder {
 

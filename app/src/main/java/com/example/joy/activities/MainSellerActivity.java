@@ -75,6 +75,9 @@ public class MainSellerActivity extends AppCompatActivity implements NavigationV
 
     private ArrayList<ModelCategory> categoryList;
     private AdapterCategory adapterCategory;
+    private ArrayList<ModelProduct> productList;
+    private AdapterProductSeller adapterProductSeller;
+
 
 
     //permission constants
@@ -111,8 +114,6 @@ public class MainSellerActivity extends AppCompatActivity implements NavigationV
         storagePermissions = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
         firebaseAuth = FirebaseAuth.getInstance();
 
-        categoryId = getIntent().getStringExtra("categoryId");
-        pId = getIntent().getStringExtra("productId");
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -141,38 +142,39 @@ public class MainSellerActivity extends AppCompatActivity implements NavigationV
 
         loadMyInfo();
         loadAllCategory();
-        //loadAllFavItem();
+        loadAllFavItem();
     }
 
-//    private void loadAllFavItem() {
-//        productList = new ArrayList<>();
-//        //get all products
-//        //String status = "true";
-//        System.out.println(categoryId);
-//        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
-//        reference.child(firebaseAuth.getUid()).child("category").child("1663906899715").child("products")
-//               .orderByChild("favourite").equalTo("true")
-//                .addValueEventListener(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                        productList.clear();
-//                        for (DataSnapshot ds: dataSnapshot.getChildren()){
-//                            ModelProduct modelProduct = ds.getValue(ModelProduct.class);
-//                            productList.add(modelProduct);
-//                        }
-//                        //setup adapter
-//                        adapterProductSeller = new AdapterProductSeller(MainSellerActivity.this, productList);
-//                        //set adapter
-//                        favItemRv.setHasFixedSize(true);
-//                        favItemRv.setAdapter(adapterProductSeller);
-//                        favItemRv.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
-//                    }
-//                    @Override
-//                    public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//                    }
-//                });
-//    }
+
+    //public String ctId;
+    private void loadAllFavItem() {
+        productList = new ArrayList<>();
+        //get all products
+        //String status = "true";
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
+        reference.child(firebaseAuth.getUid()).child("favourite")
+               .orderByChild("favourite").equalTo("true")
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        productList.clear();
+                        for (DataSnapshot ds: dataSnapshot.getChildren()){
+                            ModelProduct modelProduct = ds.getValue(ModelProduct.class);
+                            productList.add(modelProduct);
+                        }
+                        //setup adapter
+                        adapterProductSeller = new AdapterProductSeller(MainSellerActivity.this, productList);
+                        //set adapter
+                        favItemRv.setHasFixedSize(true);
+                        favItemRv.setAdapter(adapterProductSeller);
+                        favItemRv.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+    }
 
     private void loadAllCategory() {
         categoryList = new ArrayList<>();

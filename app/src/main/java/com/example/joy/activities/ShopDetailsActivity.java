@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -20,7 +21,11 @@ import android.widget.Toast;
 import com.example.joy.R;
 import com.example.joy.adapter.AdapterCategory;
 import com.example.joy.adapter.AdapterCategoryUser;
+import com.example.joy.adapter.AdapterProductSeller;
+import com.example.joy.adapter.AdapterProductUser;
 import com.example.joy.model.ModelCategory;
+import com.example.joy.model.ModelProduct;
+import com.example.joy.model.ModelShop;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -41,11 +46,14 @@ public class ShopDetailsActivity extends AppCompatActivity {
     //declare ui view
     private ImageView shopIv,openCloseTv;
     private TextView shopNameTv,phoneTv,emailTv,deliveryFeeTv,addressTv;
-    private RecyclerView categoryGl;
+    private RecyclerView categoryGl,favItemRv;
     private RatingBar ratingBar;
 
     private ArrayList<ModelCategory> categoryList;
+    private ArrayList<ModelShop> shopsList;
     private AdapterCategoryUser adapterCategoryUser;
+    private ArrayList<ModelProduct> productList;
+    private AdapterProductUser adapterProductUser;
 
     private FirebaseAuth firebaseAuth;
 
@@ -65,10 +73,11 @@ public class ShopDetailsActivity extends AppCompatActivity {
         openCloseTv = findViewById(R.id.openCloseTv);
         ratingBar = findViewById(R.id.ratingBar);
         categoryGl = findViewById(R.id.categoryGl);
+        favItemRv = findViewById(R.id.favItemRv);
         deliveryFeeTv = findViewById(R.id.deliveryFeeTv);
         addressTv = findViewById(R.id.addressTv);
 
-//get uid of the shop from intent
+        //get uid of the shop from intent
         shopUid = getIntent().getStringExtra("shopUid");
         firebaseAuth = FirebaseAuth.getInstance();
 
@@ -90,6 +99,7 @@ public class ShopDetailsActivity extends AppCompatActivity {
         loadMyInfo();
         loadShopDetails();
         loadAllCategory();
+        loadAllFavItem();
 
     }
 
@@ -181,6 +191,37 @@ public class ShopDetailsActivity extends AppCompatActivity {
         });
     }
 
+
+    private void loadAllFavItem() {
+        productList = new ArrayList<>();
+        //get all products
+        //String status = "true";
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
+        reference.child(shopUid).child("favourite")
+                .orderByChild("favourite").equalTo("true")
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        productList.clear();
+                        for (DataSnapshot ds: dataSnapshot.getChildren()){
+                            ModelProduct modelProduct = ds.getValue(ModelProduct.class);
+                            productList.add(modelProduct);
+                        }
+                        //setup adapter
+                        adapterProductUser = new AdapterProductUser(ShopDetailsActivity.this, productList);
+                        //set adapter
+                        favItemRv.setHasFixedSize(true);
+                        favItemRv.setAdapter(adapterProductUser);
+                        favItemRv.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+    }
+
+
     private void loadAllCategory() {
         categoryList = new ArrayList<>();
         //get all products
@@ -195,7 +236,7 @@ public class ShopDetailsActivity extends AppCompatActivity {
                             categoryList.add(modelCategory);
                         }
                         //setup adapter
-                        adapterCategoryUser = new AdapterCategoryUser(ShopDetailsActivity.this, categoryList);
+                        adapterCategoryUser = new AdapterCategoryUser(ShopDetailsActivity.this, categoryList, shopsList);
                         //set adapter
 
                         categoryGl.setLayoutManager(new GridLayoutManager(ShopDetailsActivity.this,4,GridLayoutManager.VERTICAL,false));
