@@ -56,10 +56,10 @@ public class AdapterCategory extends RecyclerView.Adapter<AdapterCategory.Holder
         //set data
         holder.categoryTv.setText(categoryTitle);
         try {
-            Picasso.get().load(icon).placeholder(R.drawable.ic_baseline_insert_photo_24).into(holder.categoryImage);
+            Picasso.get().load(icon).placeholder(R.drawable.splashlogo).into(holder.categoryImage);
         }
         catch (Exception e){
-            holder.categoryImage.setImageResource(R.drawable.ic_baseline_insert_photo_24);
+            holder.categoryImage.setImageResource(R.drawable.splashlogo);
         }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {

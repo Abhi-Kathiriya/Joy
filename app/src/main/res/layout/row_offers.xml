@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:elevation="5dp"
+    android:background="@drawable/shap_rect_10"
+    android:layout_margin="10dp">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="230dp"
+            android:layout_centerVertical="true"
+            android:orientation="vertical">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="230dp"
+                app:cardCornerRadius="12dp"
+                android:layout_gravity="center">
+
+                <ImageView
+                    android:id="@+id/offerIv"
+                    android:layout_width="match_parent"
+                    android:layout_height="230dp"
+                    android:scaleType="fitXY"
+                    android:scaleX="1"
+                    android:scaleY="1"
+                    android:layout_gravity="center"
+                    android:src="@drawable/gift1" />
+
+                <TextView
+                    android:id="@+id/offerTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="15dp"
+                    android:paddingBottom="7dp"
+                    android:background="@drawable/slider"
+                    android:paddingTop="5dp"
+                    android:text="15% off buy now"
+                    android:layout_gravity="bottom"
+                    android:textColor="@color/pink"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    tools:ignore="NotSibling" />
+
+            </androidx.cardview.widget.CardView>
+
+            </RelativeLayout>
+
+</RelativeLayout>

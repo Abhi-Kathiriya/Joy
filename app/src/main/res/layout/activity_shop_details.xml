@@ -129,13 +129,50 @@
             android:layout_marginTop="15dp"/>
 
         <TextView
-            android:layout_width="111dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="-1dp"
+            android:layout_marginLeft="2dp"
             android:layout_marginTop="15dp"
             android:layout_toRightOf="@+id/imageView"
-            android:text="Today's offer"
+            android:text="Best offers for you"
             android:layout_below="@+id/categoryGl"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <com.denzcoskun.imageslider.ImageSlider
+            android:id="@+id/image_slider"
+            android:layout_width="match_parent"
+            android:layout_height="230dp"
+            android:layout_below="@id/imageView"
+            android:layout_margin="15dp"
+            app:iss_corner_radius="30"
+            app:iss_selected_dot="@drawable/selected_dot"
+            app:iss_unselected_dot="@drawable/unselected_dot"
+            app:iss_title_background="@drawable/slider_user"
+            android:textAlignment="viewEnd"
+            app:iss_auto_cycle="true"
+            app:iss_placeholder="@drawable/splashlogo"
+            app:iss_period="2000"
+            app:iss_delay="0"/>
+
+        <ImageView
+            android:layout_below="@id/image_slider"
+            android:id="@+id/imageView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_thumb_up_24"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="15dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_marginTop="15dp"
+            android:layout_toRightOf="@+id/imageView"
+            android:text="Top picks for you"
+            android:layout_below="@+id/image_slider"
             android:textColor="@color/black"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -143,7 +180,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/imageView"
+            android:layout_below="@+id/imageView1"
             android:padding="10dp"
             android:layout_marginTop="5dp"
             app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"

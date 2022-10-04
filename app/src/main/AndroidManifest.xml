@@ -17,7 +17,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Joy"
         tools:ignore="MissingClass">
-        <activity android:name=".activities.ShopProductActivity"></activity>
+        <activity android:name=".activities.OffersActivity"></activity>
+        <activity android:name=".activities.ShopProductActivity" />
         <activity android:name=".activities.ShopDetailsActivity" />
         <activity android:name=".activities.EditProfileUserActivity" />
         <activity android:name=".activities.ForgotPasswordActivity" />

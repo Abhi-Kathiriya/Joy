@@ -2,6 +2,7 @@ package com.example.joy.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
@@ -87,6 +88,7 @@ public class ShopProductActivity extends AppCompatActivity {
                         LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(productRv.getContext(),
                                 R.anim.layout_fall_down);
                         productRv.setLayoutAnimation(controller);
+                        //productRv.setLayoutManager(new GridLayoutManager(ShopProductActivity.this,2,GridLayoutManager.VERTICAL,false));
                         productRv.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
                         productRv.setAdapter(adapterProductUser);
                     }

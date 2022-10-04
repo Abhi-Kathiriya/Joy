@@ -18,6 +18,9 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.denzcoskun.imageslider.ImageSlider;
+import com.denzcoskun.imageslider.constants.ScaleTypes;
+import com.denzcoskun.imageslider.models.SlideModel;
 import com.example.joy.R;
 import com.example.joy.adapter.AdapterCategory;
 import com.example.joy.adapter.AdapterCategoryUser;
@@ -35,6 +38,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ShopDetailsActivity extends AppCompatActivity {
 
@@ -48,6 +52,7 @@ public class ShopDetailsActivity extends AppCompatActivity {
     private TextView shopNameTv,phoneTv,emailTv,deliveryFeeTv,addressTv;
     private RecyclerView categoryGl,favItemRv;
     private RatingBar ratingBar;
+    private ImageSlider image_slider;
 
     private ArrayList<ModelCategory> categoryList;
     private ArrayList<ModelShop> shopsList;
@@ -76,10 +81,35 @@ public class ShopDetailsActivity extends AppCompatActivity {
         favItemRv = findViewById(R.id.favItemRv);
         deliveryFeeTv = findViewById(R.id.deliveryFeeTv);
         addressTv = findViewById(R.id.addressTv);
+        image_slider = findViewById(R.id.image_slider);
+        final List<SlideModel> remoteImages = new ArrayList<>();
+
+
 
         //get uid of the shop from intent
         shopUid = getIntent().getStringExtra("shopUid");
         firebaseAuth = FirebaseAuth.getInstance();
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
+        ref.child(shopUid).child("offers")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for(DataSnapshot ds:dataSnapshot.getChildren())
+                        {
+                            remoteImages.add(new SlideModel(ds.child("offerIcon").getValue().toString(),ds.child("offerTitle").getValue().toString(), ScaleTypes.FIT));
+
+                            image_slider.setImageList(remoteImages,ScaleTypes.FIT);
+
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
 
         phoneTv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -212,6 +242,7 @@ public class ShopDetailsActivity extends AppCompatActivity {
                         //set adapter
                         favItemRv.setHasFixedSize(true);
                         favItemRv.setAdapter(adapterProductUser);
+                        //favItemRv.setLayoutManager(new GridLayoutManager(ShopDetailsActivity.this,2,GridLayoutManager.VERTICAL,false));
                         favItemRv.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
                     }
                     @Override

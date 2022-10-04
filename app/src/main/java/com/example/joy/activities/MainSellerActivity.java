@@ -490,6 +490,12 @@ public class MainSellerActivity extends AppCompatActivity implements NavigationV
 
         } else if (id == R.id.nav_offer) {
 
+            //startActivity(new Intent(MainSellerActivity.this,OffersActivity.class));
+            Intent intent = new Intent(MainSellerActivity.this, OffersActivity.class);
+            intent.putExtra("shopId",firebaseAuth.getUid());
+            startActivity(intent);
+
+
         } else if (id == R.id.nav_logout) {
             android.app.AlertDialog.Builder builder =new android.app.AlertDialog.Builder(MainSellerActivity.this);
             builder.setTitle("Alert !")

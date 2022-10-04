@@ -102,10 +102,10 @@ public class AdapterProductUser extends RecyclerView.Adapter<AdapterProductUser.
             holder.originalPriceTv.setPaintFlags(0);
         }
         try {
-            Picasso.get().load(icon).placeholder(R.drawable.ic_baseline_add_shopping_cart_white).into(holder.productIconIv);
+            Picasso.get().load(icon).placeholder(R.drawable.splashlogo).into(holder.productIconIv);
         }
         catch (Exception e){
-            holder.productIconIv.setImageResource(R.drawable.ic_baseline_add_shopping_cart_white);
+            holder.productIconIv.setImageResource(R.drawable.splashlogo);
         }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
