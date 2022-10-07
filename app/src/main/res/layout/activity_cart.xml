@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.CartActivity"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/cartItemRv"
+                android:layout_width="match_parent"
+                android:padding="10dp"
+                android:layout_height="wrap_content"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/row_cartitem"/>
+
+
+        <TextView
+            android:id="@+id/sTotalLabelTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="5dp"
+            android:paddingLeft="10dp"
+            android:textSize="17sp"
+            android:layout_below="@id/cartItemRv"
+            android:text="Sub Total:"
+            android:textStyle="bold"
+            android:textColor="#000"/>
+
+        <TextView
+            android:id="@+id/sTotalTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="5dp"
+            android:paddingRight="10dp"
+            android:textSize="17sp"
+            android:text="₹0.00"
+            android:textStyle="bold"
+            android:layout_below="@id/cartItemRv"
+            android:layout_alignParentEnd="true"
+            android:textColor="#000"/>
+
+        <TextView
+            android:id="@+id/dFeeLabelTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="5dp"
+            android:paddingLeft="10dp"
+            android:textSize="17sp"
+            android:text="delivery Fee:"
+            android:textStyle="bold"
+            android:layout_below="@id/sTotalLabelTv"
+            android:textColor="#000"/>
+
+        <TextView
+            android:id="@+id/dFeeTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="5dp"
+            android:paddingRight="10dp"
+            android:textSize="17sp"
+            android:text="₹0"
+            android:layout_below="@id/sTotalTv"
+            android:textStyle="bold"
+            android:layout_alignParentEnd="true"
+            android:textColor="#000"/>
+
+        <TextView
+            android:id="@+id/totalLabelTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="5dp"
+            android:paddingLeft="10dp"
+            android:textSize="17sp"
+            android:text="Total Price:"
+            android:textStyle="bold"
+            android:layout_below="@id/dFeeLabelTv"
+            android:textColor="#000"/>
+
+        <TextView
+            android:id="@+id/totalTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="5dp"
+            android:paddingRight="10dp"
+            android:textSize="17sp"
+            android:text="₹0.00"
+            android:layout_below="@id/dFeeTv"
+            android:textStyle="bold"
+            android:layout_alignParentEnd="true"
+            android:textColor="#000"/>
+
+        <Button
+            android:id="@+id/checkoutBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/pink"
+            android:layout_margin="10dp"
+            android:layout_below="@id/totalTv"
+            android:text="Confirm Order"
+            android:textColor="@color/white"/>
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

@@ -29,6 +29,7 @@ import com.example.joy.adapter.AdapterProductUser;
 import com.example.joy.model.ModelCategory;
 import com.example.joy.model.ModelProduct;
 import com.example.joy.model.ModelShop;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -53,6 +54,7 @@ public class ShopDetailsActivity extends AppCompatActivity {
     private RecyclerView categoryGl,favItemRv;
     private RatingBar ratingBar;
     private ImageSlider image_slider;
+    private FloatingActionButton cartBtn;
 
     private ArrayList<ModelCategory> categoryList;
     private ArrayList<ModelShop> shopsList;
@@ -78,11 +80,21 @@ public class ShopDetailsActivity extends AppCompatActivity {
         openCloseTv = findViewById(R.id.openCloseTv);
         ratingBar = findViewById(R.id.ratingBar);
         categoryGl = findViewById(R.id.categoryGl);
+        cartBtn = findViewById(R.id.cartBtn);
         favItemRv = findViewById(R.id.favItemRv);
         deliveryFeeTv = findViewById(R.id.deliveryFeeTv);
         addressTv = findViewById(R.id.addressTv);
         image_slider = findViewById(R.id.image_slider);
         final List<SlideModel> remoteImages = new ArrayList<>();
+
+        cartBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ShopDetailsActivity.this,CartActivity.class);
+                intent.putExtra("shopUid",shopUid);
+                startActivity(intent);
+            }
+        });
 
 
 

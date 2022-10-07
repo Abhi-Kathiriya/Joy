@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.joy.R;
 import com.example.joy.activities.EditProductSellerActivity;
+import com.example.joy.activities.ProductDetailsActivity;
 import com.example.joy.activities.ShopProductActivity;
 import com.example.joy.model.ModelProduct;
 import com.example.joy.model.ModelShop;
@@ -112,6 +113,16 @@ public class AdapterProductUser extends RecyclerView.Adapter<AdapterProductUser.
             @Override
             public void onClick(View v) {
 
+                Intent intent = new Intent(context, ProductDetailsActivity.class);
+                intent.putExtra("shopUid",uid);
+                intent.putExtra("pId",id);
+                intent.putExtra("cId",cId);
+                intent.putExtra("title",title);
+                intent.putExtra("disAvl",discountAvailable);
+                intent.putExtra("DisPrice",discountPrice);
+                intent.putExtra("OrgPrice",originalPrice);
+                intent.putExtra("image",icon);
+                context.startActivity(intent);
             }
         });
 
