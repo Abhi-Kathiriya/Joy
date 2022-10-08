@@ -13,18 +13,17 @@
         android:background="@color/pink">
 
         <ImageButton
-            android:id="@+id/backBtn"
+            android:id="@+id/homeBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/ic_baseline_arrow"
+            app:srcCompat="@drawable/ic_baseline_home_white"
             android:background="@null"
             android:layout_margin="15dp"/>
 
         <TextView
-            android:id="@+id/categoryTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Flowers"
+            android:text="Orders"
             android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -45,22 +44,23 @@
         android:layout_below="@id/relativeLayout">
 
 
-        <EditText
-            android:id="@+id/searchEt"
+        <TextView
+            android:id="@+id/filteredOrdersTv"
             android:layout_width="300dp"
             android:layout_height="42.5dp"
-            android:hint="Search"
-            android:drawableLeft="@drawable/ic_baseline_search_24"
-            android:drawablePadding="5dp"
-            android:paddingLeft="8dp"
+            android:text="Showing All Orders"
+            android:paddingTop="12dp"
+            android:textColor="#4a524c"
+            android:paddingLeft="10dp"
             android:background="@drawable/shape_rect_08"/>
 
         <ImageButton
-            android:layout_toRightOf="@+id/searchEt"
+            android:id="@+id/filterOrderBtn"
+            android:layout_toRightOf="@+id/filteredOrdersTv"
             android:layout_marginLeft="10dp"
             android:layout_width="45dp"
             android:layout_height="42.5dp"
-            app:srcCompat="@drawable/ic_baseline_search_white"
+            app:srcCompat="@drawable/ic_baseline_sort_24"
             android:background="@drawable/shape_round_02"/>
 
     </RelativeLayout>
@@ -71,23 +71,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/searchRl"
         android:padding="10dp"
-        android:id="@+id/productRv"
+        android:id="@+id/ordersRv"
+        app:reverseLayout="true"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        tools:listitem="@layout/row_product"/>
+        tools:listitem="@layout/row_orders"/>
 
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/addProductBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:backgroundTint="@color/primary"
-        android:elevation="7dp"
-        android:paddingBottom="5dp"
-        app:srcCompat="@drawable/ic_baseline_add_24"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_margin="14dp"
-        android:text="Add Product" />
 
 </RelativeLayout>

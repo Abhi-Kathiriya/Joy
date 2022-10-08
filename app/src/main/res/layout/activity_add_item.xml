@@ -20,7 +20,7 @@
             android:layout_marginLeft="5dp"
             android:background="@null"
             android:padding="15dp"
-            android:src="@drawable/ic_baseline_arrow" />
+            app:srcCompat="@drawable/ic_baseline_arrow" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -71,7 +71,7 @@
                     android:padding="2dp"
                     android:background="@drawable/shape_rect_05"
                     android:layout_centerHorizontal="true"
-                    android:src="@drawable/ic_baseline_add_photo_alternate_24"/>
+                    app:srcCompat="@drawable/ic_baseline_add_photo_alternate_24"/>
 
                 <LinearLayout
                     android:id="@+id/linearLt"

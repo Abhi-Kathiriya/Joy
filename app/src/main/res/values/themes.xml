@@ -56,16 +56,24 @@
         <item name="android:background">@android:color/white</item>
         <item name="android:buttonBarPositiveButtonStyle" tools:targetApi="lollipop">@style/RatingDialogButtonStyle</item>
         <item name="android:buttonBarNegativeButtonStyle" tools:targetApi="lollipop">@style/RatingDialogButtonStyle</item>
+        <item name="android:progressTint" tools:targetApi="lollipop">@color/pink</item>
+        <item name="android:progressBackgroundTint" tools:targetApi="lollipop">#959595</item>
+
 
     </style>
     <style name="RatingDialogButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
         <item name="android:textSize">14sp</item>
-        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textColor">@color/pink</item>
+        <item name="android:progressTint" tools:targetApi="lollipop">@color/pink</item>
+        <item name="android:progressBackgroundTint" tools:targetApi="lollipop">#959595</item>
+
     </style>
 
     <style name="RatingDialogFadeAnim">
         <item name="android:windowEnterAnimation">@android:anim/fade_in</item>
         <item name="android:windowExitAnimation">@android:anim/fade_out</item>
+        <item name="android:progressTint" tools:targetApi="lollipop">@color/pink</item>
+        <item name="android:progressBackgroundTint" tools:targetApi="lollipop">#959595</item>
     </style>
 
 </resources>

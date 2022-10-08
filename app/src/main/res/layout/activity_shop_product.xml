@@ -16,7 +16,7 @@
             android:id="@+id/backBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_baseline_arrow"
+            app:srcCompat="@drawable/ic_baseline_arrow"
             android:background="@null"
             android:layout_margin="15dp"/>
 
@@ -60,7 +60,7 @@
             android:layout_marginLeft="10dp"
             android:layout_width="45dp"
             android:layout_height="42.5dp"
-            android:src="@drawable/ic_baseline_search_white"
+            app:srcCompat="@drawable/ic_baseline_search_white"
             android:background="@drawable/shape_round_02"/>
 
     </RelativeLayout>

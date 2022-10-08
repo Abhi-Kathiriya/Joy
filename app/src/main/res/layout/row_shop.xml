@@ -44,8 +44,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:numStars="5"
-                android:progressBackgroundTint="#FFFF00"
-                android:progressTint="#FFFF00"
+                android:rating="4"
+                android:progressBackgroundTint="#959595"
+                android:progressTint="#fcf228"
                 android:layout_marginTop="2dp"
                 android:layout_below="@+id/shopNameTv"
                 android:layout_marginLeft="0dp"/>
@@ -70,7 +71,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="5dp"
-            android:src="@drawable/ic_baseline_navigate_next_24"
+            app:srcCompat="@drawable/ic_baseline_navigate_next_24"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"/>
 

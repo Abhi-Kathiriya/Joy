@@ -35,7 +35,7 @@
                     android:id="@+id/favouriteIb"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_outline_favorite_border_24"
+                    app:srcCompat="@drawable/ic_outline_favorite_border_24"
                     android:padding="5dp"
                     android:background="@drawable/shape_rect_07"
                     android:layout_gravity="end"/>
@@ -85,6 +85,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="3dp"
                 android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_gravity="center_vertical"
                 android:layout_marginLeft="10dp">
 
             <TextView
@@ -95,20 +97,18 @@
                 android:textStyle="normal"
                 android:textSize="14sp"/>
 
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginTop="1dp"
-                android:src="@drawable/ic_baseline_star_24"/>
-
                 <TextView
                     android:id="@+id/reviewNum"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="(45)"
                     android:textStyle="normal"
                     android:textSize="14sp"
                     android:layout_marginLeft="4dp" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    app:srcCompat="@drawable/ic_baseline_star_24"/>
 
                 <RelativeLayout
                     android:layout_width="wrap_content"

@@ -4,6 +4,13 @@
 
     <color name="pink">#C83232</color>
     <color name="primary">#C83232</color>
+    <color name="green">#7CB342</color>
+    <color name="colorRed">#F4511E</color>
+    <color name="colorPrimary">#1679b5</color>
+    <color name="background">#ebf0ee</color>
+    <color name="colorBlack">#000000</color>
+
+
 
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>

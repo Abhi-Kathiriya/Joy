@@ -16,7 +16,7 @@
         android:backgroundTint="@color/primary"
         android:elevation="7dp"
         android:paddingBottom="5dp"
-        android:src="@drawable/ic_baseline_shopping_cartwhite"
+        app:srcCompat="@drawable/ic_baseline_shopping_cartwhite"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_margin="14dp"
@@ -142,7 +142,7 @@
             android:id="@+id/imageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_baseline_local_offer_24"
+            app:srcCompat="@drawable/ic_baseline_local_offer_24"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="15dp"/>
 
@@ -179,7 +179,7 @@
             android:id="@+id/imageView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_baseline_thumb_up_24"
+            app:srcCompat="@drawable/ic_baseline_thumb_up_24"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="15dp"/>
 

@@ -140,6 +140,10 @@ public class MainUserActivity extends AppCompatActivity implements NavigationVie
 
         } else if (id == R.id.nav_order) {
 
+            Intent intent = new Intent(MainUserActivity.this, OrderUserActivity.class);
+            //intent.putExtra("shopId",firebaseAuth.getUid());
+            startActivity(intent);
+
         } else if (id == R.id.nav_logout) {
             android.app.AlertDialog.Builder builder =new android.app.AlertDialog.Builder(MainUserActivity.this);
             builder.setTitle("Alert !")

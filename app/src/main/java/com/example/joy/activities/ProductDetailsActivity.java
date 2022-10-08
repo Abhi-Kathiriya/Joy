@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.graphics.Paint;
 import android.os.Build;
@@ -17,7 +18,9 @@ import android.widget.Toast;
 
 import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
 import com.example.joy.R;
+import com.example.joy.adapter.AdapterProductReview;
 import com.example.joy.model.ModelProduct;
+import com.example.joy.model.ModelProductReview;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -29,24 +32,33 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
+import com.stepstone.apprating.AppRatingDialog;
+import com.stepstone.apprating.listener.RatingDialogListener;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 import p32929.androideasysql_library.Column;
 import p32929.androideasysql_library.EasyDB;
 
-public class ProductDetailsActivity extends AppCompatActivity {
+public class ProductDetailsActivity extends AppCompatActivity implements RatingDialogListener {
 
     private TextView product_name,productDes,
             productIns,dTime,originalPriceTv,
-            discountedPriceTv,quantityTv;
+            discountedPriceTv,quantityTv,ratingsTv;
     private ImageView img_product;
     private CollapsingToolbarLayout collapsingToolbarLayout;
     private FloatingActionButton btnCart,btnRating;
     private ImageButton decrementBtn,incrementBtn;
     private RatingBar ratingBar;
     private Toolbar toolbar;
+    private RecyclerView reviewRv;
+
+    private ArrayList<ModelProductReview> productReviewList;// will contain list of all reviews
+    private AdapterProductReview adapterProductReview;
 
     private FirebaseAuth firebaseAuth;
 
@@ -68,12 +80,14 @@ public class ProductDetailsActivity extends AppCompatActivity {
         productDes = findViewById(R.id.productDescription);
         productIns = findViewById(R.id.productInstruction);
         dTime = findViewById(R.id.deliveryTime);
+        reviewRv = findViewById(R.id.reviewRv);
         originalPriceTv = findViewById(R.id.originalPriceTv);
         discountedPriceTv = findViewById(R.id.discountedPriceTv);
         img_product = findViewById(R.id.img_product);
         toolbar = findViewById(R.id.toolbar);
         decrementBtn = findViewById(R.id.decrementBtn);
         incrementBtn = findViewById(R.id.incrementBtn);
+        ratingsTv = findViewById(R.id.ratingsTv);
         btnCart = findViewById(R.id.btnCart);
         btnRating = findViewById(R.id.btnRating);
         ratingBar = findViewById(R.id.ratingBar);
@@ -144,50 +158,108 @@ public class ProductDetailsActivity extends AppCompatActivity {
                             });
 
 
-//                                    String productId = ""+ds.child("productId").getValue();
-//                                    String productTitle = ""+ds.child("productTitle").getValue();
-//                                    String productIcon = ""+ds.child("productIcon").getValue();
-//                                    String originalPrice = ""+ds.child("originalPrice").getValue();
-//                                    final String discountAvailable = ""+ds.child("discountAvailable").getValue();
-//                                    String discountPrice = ""+ds.child("discountPrice").getValue();
-
-
-//                                    final String price;
-//                                    if(discountAvailable.equals("true")){
-//                                        price = discountPrice;
-//                                        originalPriceTv.setPaintFlags(originalPriceTv.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-//                                    }
-//                                    else {
-//                                        price = originalPrice;
-//                                        discountedPriceTv.setVisibility(View.GONE);
-//                                    }
-//
-//                                    cost = Double.parseDouble(price.replaceAll("₹",""));
-//                                    finalCost = Double.parseDouble(price.replaceAll("₹",""));
-//                                    quantity = 1;
-//
-//
-//                                    String title = productTitle;
-//                                    String priceEach = price;
-//                                    String image = productIcon;
-//
-//                                    addToCart(productId,title,priceEach, (int) finalCost,quantity,image);
-//                                    //Toast.makeText(ProductDetailsActivity.this, "    "+finalCost+"     "+priceEach+"       "+ quantity +"     "+image, Toast.LENGTH_SHORT).show();
-//
-//
-//                                }
-//                            }
-//
-//                            @Override
-//                            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//                            }
-//                        });
-//
-
+        btnRating.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showRatingDialog();
+            }
+        });
 
         loadProductInfo();
+        loadReviews();
+    }
 
+    private float ratingSum = 0;
+    private void loadReviews() {
+        //init list
+        productReviewList = new ArrayList<>();
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
+        ref.child(shopUid).child("category").child(cId).child("products").child(pId).child("Rating").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                //clear list before adding data into it
+                productReviewList.clear();
+                ratingSum = 0;
+                for (DataSnapshot ds: dataSnapshot.getChildren()){
+                    float rating = Float.parseFloat(""+ds.child("rating").getValue());//e.g. 4.3
+                    ratingSum = ratingSum + rating; //for avg rating, add(addition of) all ratings,later will divide it by number of reviews
+                    ModelProductReview modelReview = ds.getValue(ModelProductReview.class);
+                    productReviewList.add(modelReview);
+
+                }
+                //setup adapter
+                adapterProductReview = new AdapterProductReview(ProductDetailsActivity.this,productReviewList);
+                // set to recyclerview
+                reviewRv.setAdapter(adapterProductReview);
+                long numberOfReviews = dataSnapshot.getChildrenCount();
+                float avgRating = ratingSum/numberOfReviews;
+                ratingsTv.setText(String.format("%.1f" , avgRating) + " [" +numberOfReviews+"]");// e.g 4.7  [10]
+                ratingBar.setRating(avgRating);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+
+    private void showRatingDialog() {
+        new AppRatingDialog.Builder()
+                .setPositiveButtonText("Submit")
+                .setNegativeButtonText("Cancel")
+                .setNoteDescriptions(Arrays.asList("Very Bad","Not Good","Quite Ok","Very Good","Excellent"))
+                .setDefaultRating(1)
+                .setTitle("Rate this product")
+                .setDescription("Please, select some stars and give your feedback")
+                .setTitleTextColor(R.color.black)
+                .setDescriptionTextColor(R.color.pink)
+                .setHint("Please write your comment here...")
+                .setHintTextColor(R.color.black)
+                .setCommentTextColor(R.color.black)
+                .setCommentBackgroundColor(R.color.background)
+                .setWindowAnimation(R.style.RatingDialogFadeAnim)
+                .create(ProductDetailsActivity.this)
+                .show();
+    }
+
+
+
+    @Override
+    public void onNegativeButtonClicked() {
+
+    }
+
+    @Override
+    public void onPositiveButtonClicked(int value, @NotNull String comments) {
+
+        String timestamp = ""+System.currentTimeMillis();
+
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("pId", ""+pId);
+        hashMap.put("cId", ""+cId);
+        hashMap.put("uid",""+firebaseAuth.getUid());
+        hashMap.put("comments", ""+comments);
+        hashMap.put("rating", ""+value);
+        hashMap.put("timestamp", ""+ timestamp);
+
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
+        reference.child(shopUid).child("category").child(cId).child("products").child(pId).child("Rating").child(firebaseAuth.getUid()).setValue(hashMap)
+                      .addOnSuccessListener(new OnSuccessListener<Void>() {
+                          @Override
+                          public void onSuccess(Void aVoid) {
+                              Toast.makeText(ProductDetailsActivity.this, "Thanks for rating", Toast.LENGTH_SHORT).show();
+                          }
+                      })
+                        .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+
+                        }
+                    });
     }
 
     private int itemId = 1;
@@ -223,35 +295,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
                     }
                 });
 
-
-//        EasyDB easyDB = EasyDB.init(ProductDetailsActivity.this,"ITEM_DB")
-//                .setTableName("ITEMS_TABLE")
-//                .addColumn(new Column("Item_Id", new String[]{"text","unique"}))
-//                .addColumn(new Column("Item_PID", new String[]{"text","not null"}))
-//                .addColumn(new Column("Item_Name", new String[]{"text","not null"}))
-//                .addColumn(new Column("Item_Price_Each", new String[]{"text","not null"}))
-//                .addColumn(new Column("Item_Price", new String[]{"text","not null"}))
-//                .addColumn(new Column("Item_Quantity", new String[]{"text","not null"}))
-//                .addColumn(new Column("Item_Image", new String[]{"text","not null"}))
-//                .doneTableColumn();
-//
-//        Boolean b = easyDB.addData("Item_Id",itemId)
-//                .addData("Item_PID",productId)
-//                .addData("Item_Name",title)
-//                .addData("Item_Price_Each",priceEach)
-//                .addData("Item_Price",totalPrice)
-//                .addData("Item_Quantity",quantity)
-//                .addData("Item_Image",image)
-//                .doneDataAdding();
-//
-//        Toast.makeText(ProductDetailsActivity.this, "Added to cart..."+itemId, Toast.LENGTH_SHORT).show();
-
-
-        //Toast.makeText(ProductDetailsActivity.this, "    "+title+"     "+priceEach+"    "+totalPrice+"    "+ quantity +"     "+image, Toast.LENGTH_SHORT).show();
-
-                        }
-
-
+    }
 
 
     private void loadProductInfo() {
@@ -315,70 +359,5 @@ public class ProductDetailsActivity extends AppCompatActivity {
                     }
                 });
     }
-
-
-//        //load user info, and set to views
-//        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
-//        reference.child(shopUid).child("category").child(cId).child("products").orderByChild("productId").equalTo(pId)
-//                .addValueEventListener(new ValueEventListener() {
-//                    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-//                    @Override
-//                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                        for (DataSnapshot ds: dataSnapshot.getChildren()){
-//                            String productId = ""+ds.child("productId").getValue();
-//                            String productTitle = ""+ds.child("productTitle").getValue();
-//                            String productIcon = ""+ds.child("productIcon").getValue();
-//                            String originalPrice = ""+ds.child("originalPrice").getValue();
-//                            final String discountAvailable = ""+ds.child("discountAvailable").getValue();
-//                            String discountPrice = ""+ds.child("discountPrice").getValue();
-//
-//
-//                            final String price;
-//                            if(discountAvailable.equals("true")){
-//                                price = discountPrice;
-//                                originalPriceTv.setPaintFlags(originalPriceTv.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-//                            }
-//                            else {
-//                                price = originalPrice;
-//                                discountedPriceTv.setVisibility(View.GONE);
-//                            }
-//
-//                            cost = Double.parseDouble(price.replaceAll("₹",""));
-//                            finalCost = Double.parseDouble(price.replaceAll("₹",""));
-//                            quantity = 1;
-//
-//                            //increment quantity of the product
-//                            incrementBtn.setOnClickListener(new View.OnClickListener() {
-//                                @Override
-//                                public void onClick(View v) {
-//                                    finalCost = finalCost + cost;
-//                                    quantity++;
-//
-//                                    quantityTv.setText(""+quantity);
-//                                }
-//                            });
-//
-//                            //decrement quantity of the product, only if quantity > 1
-//                            decrementBtn.setOnClickListener(new View.OnClickListener() {
-//                                @Override
-//                                public void onClick(View v) {
-//                                    if(quantity>1){
-//                                        finalCost = finalCost - cost;
-//                                        quantity --;
-//
-//                                        quantityTv.setText(""+quantity);
-//
-//                                    }
-//                                }
-//                            });
-//
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//                    }
-//                });
 
 }

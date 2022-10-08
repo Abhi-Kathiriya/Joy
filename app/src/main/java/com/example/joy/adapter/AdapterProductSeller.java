@@ -25,8 +25,11 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -71,13 +74,14 @@ public class AdapterProductSeller extends RecyclerView.Adapter<AdapterProductSel
         String originalPrice = modelProduct.getOriginalPrice();
         String favourite = modelProduct.getFavourite();
 
+        loadReviews(modelProduct,holder);
         //set data
         holder.titleTv.setText(title);
         holder.discountedNoteTv.setText(discountNote);
         holder.discountedPriceTv.setText("₹"+discountPrice);
         holder.originalPriceTv.setText("₹"+originalPrice);
-        holder.reviewTv.setText("4.5");
-        holder.reviewNum.setText("(57)");
+//        holder.reviewTv.setText("4.5");
+//        holder.reviewNum.setText("(57)");
 
 
 
@@ -125,11 +129,43 @@ public class AdapterProductSeller extends RecyclerView.Adapter<AdapterProductSel
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                detailsBottomSheet(modelProduct);
+                detailsBottomSheet(modelProduct,holder);
             }
         });
 
     }
+
+    private float ratingSum = 0;
+    private void loadReviews(ModelProduct modelProduct, final HolderProductSeller holder) {
+
+        String id = modelProduct.getProductId();
+        String cId = modelProduct.getCategoryId();
+        String uid = modelProduct.getUid();
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
+        ref.child(uid).child("category").child(cId).child("products").child(id).child("Rating").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                ratingSum = 0;
+                for (DataSnapshot ds: dataSnapshot.getChildren()){
+                    float rating = Float.parseFloat(""+ds.child("rating").getValue());//e.g. 4.3
+                    ratingSum = ratingSum + rating; //for avg rating, add(addition of) all ratings,later will divide it by number of reviews
+
+                }
+
+                long numberOfReviews = dataSnapshot.getChildrenCount();
+                float avgRating = ratingSum/numberOfReviews;
+                holder.reviewTv.setText(String.format("%.1f" , avgRating) + " [" +numberOfReviews+"]");// e.g 4.7  [10]
+                //holder.reviewNum.setText((int) avgRating);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
 
     private void removeToFav(String cId, String id) {
 
@@ -237,7 +273,7 @@ public class AdapterProductSeller extends RecyclerView.Adapter<AdapterProductSel
                 });
     }
 
-    private void detailsBottomSheet(ModelProduct modelProduct) {
+    private void detailsBottomSheet(ModelProduct modelProduct, HolderProductSeller holder) {
 //bottom sheet
         final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(context,R.style.AppBottomSheetDialogTheme);
         View view = LayoutInflater.from(context).inflate(R.layout.bs_details_product_seller,null);
@@ -252,7 +288,7 @@ public class AdapterProductSeller extends RecyclerView.Adapter<AdapterProductSel
         TextView discountNoteTv = view.findViewById(R.id.discountedNoteTv);
         TextView productTitleTv = view.findViewById(R.id.productTitleTv);
         TextView descriptionTv = view.findViewById(R.id.descriptionTv);
-        RatingBar ratingbar = view.findViewById(R.id.ratingbar);
+        RatingBar ratingbar = view.findViewById(R.id.ratingBar);
         TextView ratingTv = view.findViewById(R.id.ratingTv);
         TextView ratingNum = view.findViewById(R.id.RatingNum);
         TextView discountedPriceTv = view.findViewById(R.id.discountedPriceTv);
@@ -283,8 +319,31 @@ public class AdapterProductSeller extends RecyclerView.Adapter<AdapterProductSel
         discountedPriceTv.setText("₹"+ discountPrice);
         originalPriceTv.setText("₹"+ originalPrice);
         instructionTv.setText(instruction);
-        ratingTv.setText("4.5");
-        ratingNum.setText("(57)");
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
+        ref.child(uid).child("category").child(cId).child("products").child(id).child("Rating").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                ratingSum = 0;
+                for (DataSnapshot ds: dataSnapshot.getChildren()){
+                    float rating = Float.parseFloat(""+ds.child("rating").getValue());//e.g. 4.3
+                    ratingSum = ratingSum + rating; //for avg rating, add(addition of) all ratings,later will divide it by number of reviews
+
+                }
+
+                long numberOfReviews = dataSnapshot.getChildrenCount();
+                float avgRating = ratingSum/numberOfReviews;
+                ratingTv.setText(String.format("%.1f" , avgRating) + " [" +numberOfReviews+"]");// e.g 4.7  [10]
+                //holder.reviewNum.setText(String.format("%.2f" , " [" +numberOfReviews+"]"));
+                ratingbar.setRating(avgRating);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
 
         if(discountAvailable.equals("true")){
             discountedPriceTv.setVisibility(View.VISIBLE);

@@ -21,10 +21,9 @@
             android:layout_margin="15dp"/>
 
         <TextView
-            android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Your offer's"
+            android:text="Orders"
             android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -39,24 +38,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/relativeLayout"
         android:padding="10dp"
-        android:layout_marginTop="5dp"
-        android:id="@+id/offersRv"
+        app:reverseLayout="true"
+        android:id="@+id/ordersRv"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        tools:listitem="@layout/row_offers"/>
+        tools:listitem="@layout/row_orders_user"/>
 
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/addOffersBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:backgroundTint="@color/primary"
-        android:elevation="7dp"
-        android:paddingBottom="5dp"
-        app:srcCompat="@drawable/ic_baseline_add_24"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_margin="14dp"
-        android:text="Add Product" />
 
 </RelativeLayout>

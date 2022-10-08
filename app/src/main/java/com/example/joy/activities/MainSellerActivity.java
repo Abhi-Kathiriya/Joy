@@ -486,6 +486,10 @@ public class MainSellerActivity extends AppCompatActivity implements NavigationV
 
         } else if (id == R.id.nav_order) {
 
+            Intent intent = new Intent(MainSellerActivity.this, OrderShopActivity.class);
+            intent.putExtra("shopId",firebaseAuth.getUid());
+            startActivity(intent);
+
         } else if (id == R.id.nav_review) {
 
         } else if (id == R.id.nav_offer) {

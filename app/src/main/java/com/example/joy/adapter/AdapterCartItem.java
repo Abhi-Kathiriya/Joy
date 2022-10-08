@@ -1,6 +1,7 @@
 package com.example.joy.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,32 +11,34 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.joy.R;
 import com.example.joy.activities.CartActivity;
+import com.example.joy.activities.ProductDetailsActivity;
 import com.example.joy.activities.ShopDetailsActivity;
 import com.example.joy.model.ModelCartItem;
+import com.example.joy.model.ModelProduct;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
-import p32929.androideasysql_library.Column;
 import p32929.androideasysql_library.EasyDB;
 
 public class AdapterCartItem extends RecyclerView.Adapter<com.example.joy.adapter.AdapterCartItem.HolderCartItem> {
 
+    public ArrayList<ModelProduct> productList;
     private EasyDB easyDB;
 
-    public AdapterCartItem(Context context, ArrayList<ModelCartItem> cartItemList) {
+    public AdapterCartItem(Context context, ArrayList<ModelCartItem> cartItemList, ArrayList<ModelProduct> productList) {
         this.context = context;
         this.cartItemList = cartItemList;
+        this.productList = productList;
     }
 
     private Context context;
@@ -58,14 +61,29 @@ public class AdapterCartItem extends RecyclerView.Adapter<com.example.joy.adapte
         String price = modelCartItem.getPrice();
         String icon = modelCartItem.getImage();
         String shopUid = modelCartItem.getShopUid();
-        final String quantity = modelCartItem.getQuantity();
+        final int quantity = Integer.parseInt(modelCartItem.getQuantity());
         final String cost = modelCartItem.getCost();
         final String uid = modelCartItem.getUid();
 
+//        final ModelProduct modelProduct = productList.get(position);
+//
+//        final String price1;
+//        if(modelProduct.getDiscountAvailable().equals("true")){
+//            //product have discount
+//            price1 = modelProduct.getDiscountPrice();
+//
+//        }
+//        else{
+//
+//            price1 = modelProduct.getOriginalPrice();
+//        }
+
+
         //set data
         holder.itemTitleTv.setText("" + title);
-        holder.itemPriceTv.setText("₹" + price);
-        holder.itemQuantityTv.setText("" + quantity);
+        holder.itemPriceTv.setText("₹" + cost);
+        holder.itemQuantityTv.setText("[" + quantity + "]");
+        holder.finalPrice.setText("TOTAL : ₹" +price);
 
         try {
             Picasso.get().load(icon).placeholder(R.drawable.splashlogo).into(holder.image);
@@ -73,6 +91,7 @@ public class AdapterCartItem extends RecyclerView.Adapter<com.example.joy.adapte
         catch (Exception e){
             holder.image.setImageResource(R.drawable.splashlogo);
         }
+
 
         //double allTotalPrice = 0.00;
         //double tx = Double.parseDouble((((CartActivity) context).allTotalPriceTv.getText().toString().trim().replace("₹", "")));
@@ -89,6 +108,8 @@ public class AdapterCartItem extends RecyclerView.Adapter<com.example.joy.adapte
         //((CartActivity) context).cost1 = Double.parseDouble(price.replace("₹", ""));;
 
         //Toast.makeText(context, ""+id, Toast.LENGTH_SHORT).show();
+
+
 
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -112,7 +133,7 @@ public class AdapterCartItem extends RecyclerView.Adapter<com.example.joy.adapte
                     @Override
                     public void onSuccess(Void aVoid) {
                         //product deleted
-                        Toast.makeText(context,"Product deleted...", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context,"Item deleted...", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -134,8 +155,8 @@ public class AdapterCartItem extends RecyclerView.Adapter<com.example.joy.adapte
     class HolderCartItem extends RecyclerView.ViewHolder{
 
         //ui view of row_cartitem.xml
-        private TextView itemTitleTv,itemPriceTv,itemQuantityTv;
-        private ImageButton decrementBtn,incrementBtn;
+        private TextView itemTitleTv,itemPriceTv,itemQuantityTv,finalPrice;
+        //private ImageButton decrementBtn,incrementBtn;
         private ImageView image;
 
         public HolderCartItem(@NonNull View itemView) {
@@ -144,8 +165,9 @@ public class AdapterCartItem extends RecyclerView.Adapter<com.example.joy.adapte
             itemTitleTv = itemView.findViewById(R.id.itemName);
             itemPriceTv = itemView.findViewById(R.id.itemPrice);
             itemQuantityTv = itemView.findViewById(R.id.quantityTv);
-            incrementBtn = itemView.findViewById(R.id.incrementBtn);
-            decrementBtn = itemView.findViewById(R.id.decrementBtn);
+            finalPrice = itemView.findViewById(R.id.finalPrice);
+//            incrementBtn = itemView.findViewById(R.id.incrementBtn);
+//            decrementBtn = itemView.findViewById(R.id.decrementBtn);
             image = itemView.findViewById(R.id.itemIv);
 
         }

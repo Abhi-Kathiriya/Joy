@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.example.joy.R;
 import com.example.joy.adapter.AdapterCartItem;
 import com.example.joy.model.ModelCartItem;
+import com.example.joy.model.ModelProduct;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -35,6 +36,7 @@ public class CartActivity extends AppCompatActivity {
     private Button checkoutBtn;
     //cart
     private ArrayList<ModelCartItem> cartItemList;
+    private ArrayList<ModelProduct> productList;
     private AdapterCartItem adapterCartItem;
 
     private String shopUid;
@@ -160,6 +162,7 @@ public class CartActivity extends AppCompatActivity {
                         Intent intent = new Intent(CartActivity.this, SuccessActivity.class);
                         intent.putExtra("orderTo",shopUid);
                         intent.putExtra("orderId",timestamp);
+                        intent.putExtra("orderBy",firebaseAuth.getUid());
                         startActivity(intent);
                     }
 
@@ -232,7 +235,7 @@ public class CartActivity extends AppCompatActivity {
                             cartItemList.add(modelCartItem);
                         }
                         //setup adapter
-                        adapterCartItem = new AdapterCartItem(CartActivity.this, cartItemList);
+                        adapterCartItem = new AdapterCartItem(CartActivity.this, cartItemList,productList);
                         //set adapter
                         cartItemRv.setHasFixedSize(true);
                         cartItemRv.setAdapter(adapterCartItem);
@@ -314,7 +317,7 @@ public class CartActivity extends AppCompatActivity {
                 String profileImage = ""+dataSnapshot.child("profileImage").getValue();
                 String shopOpen = ""+dataSnapshot.child("shopOpen").getValue();
 
-                dFeeTv.setText("₹"+deliveryFee);
+                dFeeTv.setText("+  ₹"+deliveryFee);
                 allTotalPriceTv.setText("₹"+(sum + Double.parseDouble(deliveryFee.replace("₹", ""))));
 
             }
