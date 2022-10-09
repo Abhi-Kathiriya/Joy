@@ -18,7 +18,9 @@
         android:theme="@style/Theme.Joy"
         tools:ignore="MissingClass"
         tools:replace="android:theme">
-        <activity android:name=".activities.OrderDetailsUserActivity"></activity>
+        <activity android:name=".activities.ShopReviewActivity"></activity>
+        <activity android:name=".activities.WriteReviewActivity" />
+        <activity android:name=".activities.OrderDetailsUserActivity" />
         <activity android:name=".activities.OrderDetailsSellerActivity" />
         <activity android:name=".activities.OrderUserActivity" />
         <activity android:name=".activities.OrderShopActivity" />

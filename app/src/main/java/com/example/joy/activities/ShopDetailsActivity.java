@@ -54,6 +54,7 @@ public class ShopDetailsActivity extends AppCompatActivity {
     private RecyclerView categoryGl,favItemRv;
     private RatingBar ratingBar;
     private ImageSlider image_slider;
+    private ImageButton shopReview;
     private FloatingActionButton cartBtn;
 
     private ArrayList<ModelCategory> categoryList;
@@ -75,6 +76,7 @@ public class ShopDetailsActivity extends AppCompatActivity {
         //init ui views
         shopIv = findViewById(R.id.shopIv);
         shopNameTv = findViewById(R.id.shopNameTv);
+        shopReview = findViewById(R.id.shopReview);
         phoneTv = findViewById(R.id.phoneTv);
         //emailTv = findViewById(R.id.emailTv);
         openCloseTv = findViewById(R.id.openCloseTv);
@@ -96,7 +98,14 @@ public class ShopDetailsActivity extends AppCompatActivity {
             }
         });
 
-
+        shopReview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ShopDetailsActivity.this, ShopReviewActivity.class);
+                intent.putExtra("shopUid",shopUid);
+                startActivity(intent);
+            }
+        });
 
         //get uid of the shop from intent
         shopUid = getIntent().getStringExtra("shopUid");

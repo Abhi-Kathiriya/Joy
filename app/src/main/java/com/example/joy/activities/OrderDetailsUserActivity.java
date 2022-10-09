@@ -82,9 +82,9 @@ public class OrderDetailsUserActivity extends AppCompatActivity {
         writeReviewBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent1 = new Intent(OrderDetailsUsersActivity.this, WriteReviewActivity.class);
-//                intent1.putExtra("shopUid",orderTo); // to write review to a shop we must have uid of shop
-//                startActivity(intent1);
+                Intent intent1 = new Intent(OrderDetailsUserActivity.this, WriteReviewActivity.class);
+                intent1.putExtra("shopUid",orderTo); // to write review to a shop we must have uid of shop
+                startActivity(intent1);
             }
         });
     }

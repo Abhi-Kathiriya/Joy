@@ -7,9 +7,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -32,6 +35,7 @@ public class ShopProductActivity extends AppCompatActivity {
     private ImageButton backBtn;
     private TextView categoryTitle;
     private RecyclerView productRv;
+    private EditText searchEt;
 
     private FirebaseAuth firebaseAuth;
     private ArrayList<ModelProduct> productList;
@@ -48,6 +52,7 @@ public class ShopProductActivity extends AppCompatActivity {
         backBtn = findViewById(R.id.backBtn);
         categoryTitle = findViewById(R.id.categoryTitle);
         productRv = findViewById(R.id.productRv);
+        searchEt = findViewById(R.id.searchEt);
 
         firebaseAuth = FirebaseAuth.getInstance();
 
@@ -59,6 +64,27 @@ public class ShopProductActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 onBackPressed();
+            }
+        });
+        searchEt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                try {
+                    adapterProductUser.getFilter().filter(s);
+                }
+                catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
 

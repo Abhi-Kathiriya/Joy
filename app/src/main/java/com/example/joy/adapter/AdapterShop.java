@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -12,8 +14,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.joy.FilterProduct;
+import com.example.joy.FilterShop;
 import com.example.joy.R;
 import com.example.joy.activities.ShopDetailsActivity;
+import com.example.joy.model.ModelProduct;
 import com.example.joy.model.ModelShop;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -24,14 +29,17 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class AdapterShop extends RecyclerView.Adapter<com.example.joy.adapter.AdapterShop.HolderShop>{
+public class AdapterShop extends RecyclerView.Adapter<com.example.joy.adapter.AdapterShop.HolderShop> implements Filterable {
 
     private Context context;
     public ArrayList<ModelShop> shopsList;
+    public ArrayList<ModelShop> filterList;
+    private FilterShop filter;
 
     public AdapterShop(Context context, ArrayList<ModelShop> shopsList) {
         this.context = context;
         this.shopsList = shopsList;
+        this.filterList = shopsList;
     }
 
     @NonNull
@@ -125,6 +133,13 @@ public class AdapterShop extends RecyclerView.Adapter<com.example.joy.adapter.Ad
         return shopsList.size(); //return number of records
     }
 
+    @Override
+    public Filter getFilter() {
+        if(filter==null){
+            filter = new FilterShop(this,filterList);
+        }
+        return filter;
+    }
     //view holder
     class HolderShop extends RecyclerView.ViewHolder {
 

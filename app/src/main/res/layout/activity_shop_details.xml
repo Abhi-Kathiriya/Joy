@@ -35,6 +35,15 @@
             android:textSize="24dp"
             android:textStyle="bold" />
 
+    <ImageButton
+        android:id="@+id/shopReview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_baseline_star_border_24"
+        android:layout_alignParentRight="true"
+        android:layout_margin="25dp"
+        android:background="@null"/>
+
 
     <RelativeLayout
         android:layout_width="match_parent"

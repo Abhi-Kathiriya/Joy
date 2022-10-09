@@ -8,6 +8,8 @@ import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
@@ -17,6 +19,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.joy.FilterProductUser;
+import com.example.joy.FilterShop;
 import com.example.joy.R;
 import com.example.joy.activities.EditProductSellerActivity;
 import com.example.joy.activities.ProductDetailsActivity;
@@ -38,15 +42,17 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class AdapterProductUser extends RecyclerView.Adapter<AdapterProductUser.HolderProductSeller> {
+public class AdapterProductUser extends RecyclerView.Adapter<AdapterProductUser.HolderProductSeller> implements Filterable {
 
     private Context context;
     public ArrayList<ModelProduct> productList;
+    public ArrayList<ModelProduct> filterList;
+    private FilterProductUser filter;
 
     public AdapterProductUser(Context context, ArrayList<ModelProduct> productList) {
         this.context = context;
         this.productList = productList;
-
+        this.filterList = productList;
     }
 
 
@@ -170,6 +176,14 @@ public class AdapterProductUser extends RecyclerView.Adapter<AdapterProductUser.
     @Override
     public int getItemCount() {
         return productList.size();
+    }
+
+    @Override
+    public Filter getFilter() {
+        if(filter==null){
+            filter = new FilterProductUser(this,filterList);
+        }
+        return filter;
     }
 
     public class HolderProductSeller extends RecyclerView.ViewHolder {

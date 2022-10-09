@@ -9,7 +9,9 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -39,6 +41,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.joy.R;
 import com.example.joy.adapter.AdapterCategory;
 import com.example.joy.adapter.AdapterProductSeller;
+import com.example.joy.adapter.AdapterProductUser;
 import com.example.joy.adapter.AdapterShop;
 import com.example.joy.model.ModelCategory;
 import com.example.joy.model.ModelProduct;
@@ -67,9 +70,11 @@ public class MainUserActivity extends AppCompatActivity implements NavigationVie
     private AppBarConfiguration mAppBarConfiguration;
     private TextView userNameTv;
     private Uri image_uri;
+    private EditText searchEt;
     private RecyclerView shopRv;
 
 
+    //private AdapterProductUser adapterProductUser;
     private ArrayList<ModelShop> shopsList;
     private AdapterShop adapterShop;
     private FirebaseAuth firebaseAuth;
@@ -84,6 +89,30 @@ public class MainUserActivity extends AppCompatActivity implements NavigationVie
         firebaseAuth = FirebaseAuth.getInstance();
         userNameTv = findViewById(R.id.userNameTv);
         shopRv = findViewById(R.id.shopRv);
+        searchEt = findViewById(R.id.searchEt);
+
+
+        searchEt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                try {
+                    adapterShop.getFilter().filter(s);
+                }
+                catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         Toolbar toolbar = findViewById(R.id.toolbaruser);
         setSupportActionBar(toolbar);

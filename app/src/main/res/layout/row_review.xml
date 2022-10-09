@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginBottom="1dp"
+    app:cardElevation="3dp"
+    app:cardCornerRadius="10dp"
+    android:background="@drawable/shap_rect_10"
+    android:layout_margin="10dp"
+    app:contentPadding="7dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp">
+
+        <RelativeLayout
+            android:id="@+id/profileL1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:id="@+id/profileIv"
+                app:srcCompat="@drawable/ic_person_gray"
+                app:civ_border_overlay="true"
+                app:civ_border_color="@color/pink"
+                app:civ_border_width="1dp" />
+
+            <TextView
+                android:id="@+id/dateTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#696262"
+                android:text="dd/MM/yyyy"
+                android:layout_marginRight="5dp"
+                android:textSize="12sp"
+                android:layout_alignParentRight="true"/>
+
+            <TextView
+                android:id="@+id/nameTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/profileIv"
+                android:text="Name"
+                android:layout_marginLeft="5dp"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                tools:ignore="NotSibling" />
+
+            <RatingBar
+                android:id="@+id/ratingBar"
+                style="@style/Widget.AppCompat.RatingBar.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:numStars="5"
+                android:rating="3"
+                android:progressBackgroundTint="#696262"
+                android:progressTint="#fcf228"
+                android:layout_toRightOf="@+id/profileIv"
+                android:layout_below="@+id/nameTv"
+                android:layout_marginLeft="5dp"/>
+
+            <TextView
+                android:id="@+id/reviewTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ratingBar"
+                android:layout_marginTop="15dp"
+                android:textColor="@color/colorBlack"
+                android:text="The original review of the user"/>
+
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+
+</androidx.cardview.widget.CardView>
+

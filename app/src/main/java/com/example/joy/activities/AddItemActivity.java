@@ -118,7 +118,8 @@ public class AddItemActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //back
-                onBackPressed();
+                Intent intent = new Intent(AddItemActivity.this, AddProductActivity.class);
+                startActivity(intent);
             }
         });
 
