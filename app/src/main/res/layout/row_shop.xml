@@ -34,7 +34,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Shop name"
-                android:textSize="17dp"
+                android:textSize="16dp"
                 android:textColor="@color/black"
                 android:textStyle="bold"/>
 
@@ -52,9 +52,19 @@
                 android:layout_marginLeft="0dp"/>
 
             <TextView
+                android:id="@+id/ratingTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="[4.5]"
+                android:layout_marginTop="2dp"
+                android:layout_toRightOf="@id/ratingBar"
+                android:layout_below="@id/shopNameTv"
+                android:layout_marginLeft="5dp"/>
+
+            <TextView
                 android:id="@+id/addressTv"
                 android:layout_marginTop="5dp"
-                android:layout_width="250dp"
+                android:layout_width="190dp"
                 android:layout_height="wrap_content"
                 android:text="Lorem ipsum dolor amet, consectetur adipiscing elit. Pellentesque arcu, Gujarat."
                 android:textColor="#959595"

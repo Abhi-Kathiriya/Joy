@@ -26,8 +26,10 @@ import com.example.joy.adapter.AdapterCategory;
 import com.example.joy.adapter.AdapterCategoryUser;
 import com.example.joy.adapter.AdapterProductSeller;
 import com.example.joy.adapter.AdapterProductUser;
+import com.example.joy.adapter.AdapterReview;
 import com.example.joy.model.ModelCategory;
 import com.example.joy.model.ModelProduct;
+import com.example.joy.model.ModelReview;
 import com.example.joy.model.ModelShop;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -62,6 +64,8 @@ public class ShopDetailsActivity extends AppCompatActivity {
     private AdapterCategoryUser adapterCategoryUser;
     private ArrayList<ModelProduct> productList;
     private AdapterProductUser adapterProductUser;
+    private ArrayList<ModelReview> reviewArrayList;// will contain list of all reviews
+    private AdapterReview adapterReview;
 
     private FirebaseAuth firebaseAuth;
 
@@ -151,9 +155,45 @@ public class ShopDetailsActivity extends AppCompatActivity {
         loadShopDetails();
         loadAllCategory();
         loadAllFavItem();
+        loadReviews();
 
     }
 
+    private float ratingSum = 0;
+    private void loadReviews() {
+        //init list
+        reviewArrayList = new ArrayList<>();
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
+        ref.child(shopUid).child("Ratings").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                //clear list before adding data into it
+                reviewArrayList.clear();
+                ratingSum = 0;
+                for (DataSnapshot ds: dataSnapshot.getChildren()){
+                    float rating = Float.parseFloat(""+ds.child("ratings").getValue());//e.g. 4.3
+                    ratingSum = ratingSum + rating; //for avg rating, add(addition of) all ratings,later will divide it by number of reviews
+                    ModelReview modelReview = ds.getValue(ModelReview.class);
+                    reviewArrayList.add(modelReview);
+
+                }
+                //setup adapter
+                //adapterReview = new AdapterReview(ShopReviewActivity.this,reviewArrayList);
+                // set to recyclerview
+                //reviewsRv.setAdapter(adapterReview);
+                long numberOfReviews = dataSnapshot.getChildrenCount();
+                float avgRating = ratingSum/numberOfReviews;
+                //ratingsTv.setText(String.format("%.2f" , avgRating) + " [" +numberOfReviews+"]");// e.g 4.7  [10]
+                ratingBar.setRating(avgRating);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
 
     private void openMap() {
         //saddr means source address

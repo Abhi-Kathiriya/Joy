@@ -14,5 +14,6 @@
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
     <string name="home"><u>Get Order Details</u></string>
+    <string name="address">Add delivery address Only if your delivery address is not your home address</string>
 
 </resources>

@@ -33,7 +33,7 @@ import java.util.HashMap;
 
 public class OrderDetailsSellerActivity extends AppCompatActivity {
 
-    private TextView orderIdTv,dateTv,orderStatusTv,emailTv,phoneTv,totalItemsTv,amountTv,addressTv,dFeeTv;
+    private TextView orderIdTv,dateTv,orderStatusTv,emailTv,phoneTv,totalItemsTv,amountTv,addressTv,dFeeTv,method;
     private ImageButton backBtn,editBtn,mapBtn;
     private RecyclerView itemsRv;
 
@@ -56,6 +56,7 @@ public class OrderDetailsSellerActivity extends AppCompatActivity {
         orderIdTv = findViewById(R.id.orderIdTv);
         dateTv = findViewById(R.id.dateTv);
         orderStatusTv = findViewById(R.id.orderStatusTv);
+        method = findViewById(R.id.method);
         emailTv = findViewById(R.id.emailTv);
         dFeeTv = findViewById(R.id.dFeeTv);
         phoneTv = findViewById(R.id.phoneTv);
@@ -202,6 +203,8 @@ public class OrderDetailsSellerActivity extends AppCompatActivity {
                         String orderTo = ""+dataSnapshot.child("orderTo").getValue();
                         String deliveryFee = ""+dataSnapshot.child("deliveryFee").getValue();
                         String address = ""+dataSnapshot.child("address").getValue();
+                        String payment = ""+dataSnapshot.child("payment").getValue();
+
 
                         //conver timestamp to proper formate
                         Calendar calendar = Calendar.getInstance();
@@ -225,6 +228,7 @@ public class OrderDetailsSellerActivity extends AppCompatActivity {
                         dFeeTv.setText("₹" +deliveryFee);
                         dateTv.setText(formatedDate);
                         addressTv.setText(address);
+                        method.setText(payment);
 
                     }
 

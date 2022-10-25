@@ -67,11 +67,27 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_vertical|start"
-            android:textSize="17sp"
+            android:textSize="16sp"
             android:text="Total : ₹500"
             android:paddingRight="5dp"
             android:layout_below="@+id/quantityTv"
             android:textAllCaps="true" />
+
+        <TextView
+            android:id="@+id/removeTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|start"
+            android:textSize="15sp"
+            android:paddingEnd="5dp"
+            android:text="Remove"
+            android:textStyle="italic"
+            android:textColor="@color/pink"
+            android:paddingRight="5dp"
+            android:layout_marginRight="15dp"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/finalPrice"
+            android:textAllCaps="false" />
 
 
 

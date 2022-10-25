@@ -93,7 +93,7 @@ public class ShopReviewActivity extends AppCompatActivity {
                 reviewsRv.setAdapter(adapterReview);
                 long numberOfReviews = dataSnapshot.getChildrenCount();
                 float avgRating = ratingSum/numberOfReviews;
-                ratingsTv.setText(String.format("%.2f" , avgRating) + " [" +numberOfReviews+"]");// e.g 4.7  [10]
+                ratingsTv.setText(String.format("%.1f" , avgRating) + " [" +numberOfReviews+"]");// e.g 4.7  [10]
                 ratingBar.setRating(avgRating);
             }
 

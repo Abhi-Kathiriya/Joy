@@ -19,6 +19,7 @@ import com.example.joy.FilterShop;
 import com.example.joy.R;
 import com.example.joy.activities.ShopDetailsActivity;
 import com.example.joy.model.ModelProduct;
+import com.example.joy.model.ModelReview;
 import com.example.joy.model.ModelShop;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -72,7 +73,7 @@ public class AdapterShop extends RecyclerView.Adapter<com.example.joy.adapter.Ad
         String profileImage = modelShop.getProfileImage();
         String shopName = modelShop.getShopName();
 
-//        loadReviews(modelShop,holder);// load avg rating , set to ratingbar
+        loadReviews(modelShop,holder);// load avg rating , set to ratingbar
 
         //set data
         holder.shopNameTv.setText(shopName);
@@ -97,35 +98,36 @@ public class AdapterShop extends RecyclerView.Adapter<com.example.joy.adapter.Ad
         });
     }
 
-//    private float ratingSum = 0;
-//    private void loadReviews(ModelShop modelShop, final HolderShop holder) {
-//        String shopUid = modelShop.getUid();
-//
-//        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
-//        ref.child(shopUid).child("Ratings").addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                //clear list before adding data into it
-//
-//                ratingSum = 0;
-//                for (DataSnapshot ds: dataSnapshot.getChildren()){
-//                    float rating = Float.parseFloat(""+ds.child("ratings").getValue());//e.g. 4.3
-//                    ratingSum = ratingSum + rating; //for avg rating, add(addition of) all ratings,later will divide it by number of reviews
-//
-//
-//                }
-//
-//                long numberOfReviews = dataSnapshot.getChildrenCount();
-//                float avgRating = ratingSum/numberOfReviews;
-//                holder.ratingBar.setRating(avgRating);
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
-//    }
+    private float ratingSum = 0;
+    private void loadReviews(ModelShop modelShop, final HolderShop holder) {
+        String shopUid = modelShop.getUid();
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
+        ref.child(shopUid).child("Ratings").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                //clear list before adding data into it
+
+                ratingSum = 0;
+                for (DataSnapshot ds: dataSnapshot.getChildren()){
+                    float rating = Float.parseFloat(""+ds.child("ratings").getValue());//e.g. 4.3
+                    ratingSum = ratingSum + rating; //for avg rating, add(addition of) all ratings,later will divide it by number of reviews
+
+
+                }
+
+                long numberOfReviews = dataSnapshot.getChildrenCount();
+                float avgRating = ratingSum/numberOfReviews;
+                holder.ratingBar.setRating(avgRating);
+                holder.ratingTv.setText(String.format("%.1f" , avgRating) + " [" +numberOfReviews+"]");
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
 
 
     @Override
@@ -145,7 +147,7 @@ public class AdapterShop extends RecyclerView.Adapter<com.example.joy.adapter.Ad
 
         //ui views of row_shop.xml
         private ImageView shopIv,onlineIv;
-        private TextView shopNameTv,addressTv;
+        private TextView shopNameTv,addressTv,ratingTv;
         private RatingBar ratingBar;
 
         public HolderShop(@NonNull View itemView) {
@@ -155,6 +157,7 @@ public class AdapterShop extends RecyclerView.Adapter<com.example.joy.adapter.Ad
             shopIv = itemView.findViewById(R.id.shopIv);
             shopNameTv = itemView.findViewById(R.id.shopNameTv);
             addressTv = itemView.findViewById(R.id.addressTv);
+            ratingTv = itemView.findViewById(R.id.ratingTv);
             ratingBar = itemView.findViewById(R.id.ratingBar);
         }
     }

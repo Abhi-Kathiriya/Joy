@@ -199,6 +199,36 @@
 
                 </TableRow>
 
+                <TableRow>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginRight="5dp"
+                        android:textSize="16sp"
+                        android:text="Order time"
+                        android:textColor="@color/colorBlack"
+                        android:textStyle="bold"/>
+
+
+                    <TextView
+                        android:id="@+id/dateTv"
+                        android:textSize="16sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:paddingLeft="15dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1"
+                        android:text="DD/MM/YYYY"
+                        android:textColor="@color/colorBlack"/>
+
+                </TableRow>
+
+
             </TableLayout>
 
             <LinearLayout
@@ -213,7 +243,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:paddingLeft="15dp"
-                    android:text="Order time"
+                    android:text="Payment - "
                     android:textSize="16sp"
                     android:layout_gravity="center_horizontal"
                     android:gravity="center_vertical"
@@ -221,7 +251,7 @@
                     android:textStyle="bold"/>
 
                 <TextView
-                    android:id="@+id/dateTv"
+                    android:id="@+id/method"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:textSize="16sp"
@@ -229,8 +259,8 @@
                     android:gravity="center_vertical"
                     android:layout_gravity="center_horizontal"
                     android:layout_weight="1"
-                    android:text="DD/MM/YYYY"
-                    android:textColor="@color/colorBlack"/>
+                    android:text="Cash on delivery"
+                    android:textColor="@color/pink"/>
 
             </LinearLayout>
 

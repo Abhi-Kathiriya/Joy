@@ -5,11 +5,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,22 +32,34 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.razorpay.Checkout;
+import com.razorpay.PaymentResultListener;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CartActivity extends AppCompatActivity {
+import static android.content.ContentValues.TAG;
+
+public class CartActivity extends AppCompatActivity implements PaymentResultListener {
 
     private RecyclerView cartItemRv;
     private Button checkoutBtn;
+    private TextView shopNameTv,addressTv,cart;
+    private EditText addressEt;
+    private RadioGroup address,payment;
+    private RadioButton address1,payment1,otherAddress,homeAddress,cod,op;
+
+
     //cart
     private ArrayList<ModelCartItem> cartItemList;
     private ArrayList<ModelProduct> productList;
     private AdapterCartItem adapterCartItem;
 
     private String shopUid;
-    private String myLatitude ,myLongitude ,myPhone, myAddress;
+    private String myLatitude ,myLongitude ,myPhone, myAddress,buyerAddress;
     private String shopName,shopEmail,shopPhone,shopAddress,shopLatitude,shopLongitude;
     public String deliveryFee;
 
@@ -52,10 +71,20 @@ public class CartActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_cart);
-        cartItemRv = findViewById(R.id.cartItemRv);
+         setContentView(R.layout.activity_cart);
+         cartItemRv = findViewById(R.id.cartItemRv);
+        addressEt = findViewById(R.id.addressEt);
+        address = findViewById(R.id.address);
+        payment = findViewById(R.id.payment);
+        otherAddress = findViewById(R.id.otherAddress);
+        homeAddress = findViewById(R.id.homeAddress);
+        cod = findViewById(R.id.cod);
+        op = findViewById(R.id.op);
+         cart = findViewById(R.id.cart);
+         addressTv = findViewById(R.id.addressTv);
          TextView sTotalLabelTv = findViewById(R.id.sTotalLabelTv);
          sTotalTv = findViewById(R.id.sTotalTv);
+         shopNameTv = findViewById(R.id.shopNameTv);
          dFeeTv = findViewById(R.id.dFeeTv);
          allTotalPriceTv = findViewById(R.id.totalTv);
          checkoutBtn = findViewById(R.id.checkoutBtn);
@@ -67,9 +96,13 @@ public class CartActivity extends AppCompatActivity {
         progressDialog.setTitle("Please wait");
         progressDialog.setCanceledOnTouchOutside(false);
 
+
         loadCart();
         loadMyInfo();
         loadCartItem();
+
+        cart.setVisibility(View.VISIBLE);
+
 
         checkoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,13 +124,104 @@ public class CartActivity extends AppCompatActivity {
                     Toast.makeText(CartActivity.this,"No item in cart",Toast.LENGTH_SHORT).show();
                     return;//don't procede further
                 }
-                submitOrder();
+
+                if(!(otherAddress.isChecked() || homeAddress.isChecked())){
+                    Toast.makeText(CartActivity.this,"Please select your address...",Toast.LENGTH_SHORT).show();
+                    return;//don't procede further
+                }
+
+                if(!(cod.isChecked() || op.isChecked())){
+                    Toast.makeText(CartActivity.this,"Please select your payment method...",Toast.LENGTH_SHORT).show();
+                    return;//don't procede further
+                }
+
+                if (otherAddress.isChecked()){
+                    buyerAddress = addressEt.getText().toString().trim();
+                }
+                else if(homeAddress.isChecked()){
+                    buyerAddress = myAddress;
+                }
+
+                if (op.isChecked()){
+                    String method = "Online Payment";
+                    String amount = allTotalPriceTv.getText().toString().trim().replace("₹", "");//remove ₹ if contains
+                    onlinePayment(buyerAddress,method,amount);
+                }
+                else if(cod.isChecked()) {
+                    String method1 = "Cash on delivery";
+
+                    AlertDialog.Builder builder =new AlertDialog.Builder(CartActivity.this);
+                    builder.setTitle("Confirmation")
+                            .setMessage("Are you sure you want to place this order?")
+                            .setPositiveButton("CONFIRM", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    submitOrder(buyerAddress, method1);
+                                }
+                            })
+                            .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    //cancel, dismiss dialog
+                                    dialog.dismiss();
+                                }
+                            })
+                            .show();
+                }
+
             }
         });
 
+        //Toast.makeText(this, ""+shopName, Toast.LENGTH_SHORT).show();
     }
 
-    private void submitOrder() {
+    private void onlinePayment(String buyerAddress, String method, String amount) {
+
+        final Activity activity =this;
+
+        Checkout checkout = new Checkout();
+        checkout.setKeyID("rzp_test_jljHQIGmW8hXph");
+        checkout.setImage(R.drawable.logo);
+
+        double finalAmount = Float.parseFloat(amount)*100;
+
+        try {
+            JSONObject options = new JSONObject();
+
+            options.put("name", "Joy");
+            options.put("description", "Reference No. #123456");
+            options.put("image", "https://s3.amazonaws.com/rzp-mobile/images/rzp.jpg");
+            //options.put("order_id", "order_DBJOWzybf0sJbb");//from response of step 3.
+            options.put("theme.color", "#C83232");
+            options.put("currency", "INR");
+            options.put("amount", ""+finalAmount);//pass amount in currency subunits
+            options.put("prefill.email", "joyapp@gmail.com");
+            options.put("prefill.contact","9988776655");
+            JSONObject retryObj = new JSONObject();
+            retryObj.put("enabled", true);
+            retryObj.put("max_count", 4);
+            options.put("retry", retryObj);
+
+            checkout.open(activity, options);
+
+        } catch(Exception e) {
+            Log.e(TAG, "Error in starting Razorpay Checkout", e);
+        }
+
+    }
+
+    @Override
+    public void onPaymentSuccess(String s) {
+        String method = "Online Payment";
+        submitOrder(buyerAddress, method);
+    }
+
+    @Override
+    public void onPaymentError(int i, String s) {
+
+    }
+
+    private void submitOrder(String buyerAddress, String method) {
         //show progress dialog
         progressDialog.setMessage("Placing order...");
         progressDialog.show();
@@ -117,7 +241,8 @@ public class CartActivity extends AppCompatActivity {
         hashMap.put("orderTo", "" + shopUid);
         hashMap.put("latitude", "" + myLatitude);
         hashMap.put("longitude", "" + myLongitude);
-        hashMap.put("address", "" + myAddress);
+        hashMap.put("payment", "" + method);
+        hashMap.put("address", "" + buyerAddress);
         hashMap.put("deliveryFee", "" + deliveryFee);
         hashMap.put("phone", "" + myPhone);
 
@@ -187,6 +312,7 @@ public class CartActivity extends AppCompatActivity {
 
     private void loadCart() {
 
+
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
         reference.child(firebaseAuth.getUid()).child("items").orderByChild("shopUid").equalTo(shopUid)
                 .addValueEventListener(new ValueEventListener() {
@@ -200,6 +326,7 @@ public class CartActivity extends AppCompatActivity {
                             sum += pValue;
 
                             sTotalTv.setText(String.valueOf("₹"+sum));
+
                             //allTotalPriceTv.setText("₹"+(sum + Double.parseDouble(deliveryFee.replace("₹", ""))));
                             loadShopDetails(sum);
                         }
@@ -224,6 +351,7 @@ public class CartActivity extends AppCompatActivity {
         //get all products
         //String status = "true";
 
+
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
         reference.child(firebaseAuth.getUid()).child("items").orderByChild("shopUid").equalTo(shopUid)
                 .addValueEventListener(new ValueEventListener() {
@@ -242,6 +370,18 @@ public class CartActivity extends AppCompatActivity {
                         //favItemRv.setLayoutManager(new GridLayoutManager(ShopDetailsActivity.this,2,GridLayoutManager.VERTICAL,false));
                         cartItemRv.setLayoutManager(new LinearLayoutManager(CartActivity.this));
 
+                        if (cartItemList.size() != 0){
+                            cart.setVisibility(View.GONE);
+                        }
+                        else{
+                            cart.setVisibility(View.VISIBLE);
+                            sTotalTv.setText("₹0.00");
+                            dFeeTv.setText("₹0");
+                            allTotalPriceTv.setText("₹0.00");
+                            //addressTv.setVisibility(View.GONE);
+                            shopNameTv.setVisibility(View.GONE);
+                        }
+                        //cart.setVisibility(View.GONE);
 //                        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
 //                            @Override
 //                            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
@@ -319,6 +459,7 @@ public class CartActivity extends AppCompatActivity {
 
                 dFeeTv.setText("+  ₹"+deliveryFee);
                 allTotalPriceTv.setText("₹"+(sum + Double.parseDouble(deliveryFee.replace("₹", ""))));
+                shopNameTv.setText(shopName);
 
             }
 
@@ -347,6 +488,8 @@ public class CartActivity extends AppCompatActivity {
                             myLongitude = ""+ds.child("Longitude").getValue();
                             myAddress = ""+ds.child("address").getValue();
 
+                            addressTv.setText(myAddress);
+
                             //Toast.makeText(ShopDetailsActivity.this, ""+myLatitude+""+myLongitude, Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -357,6 +500,7 @@ public class CartActivity extends AppCompatActivity {
                     }
                 });
     }
+
 
 
 }

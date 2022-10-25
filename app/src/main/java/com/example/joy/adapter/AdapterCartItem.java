@@ -111,17 +111,12 @@ public class AdapterCartItem extends RecyclerView.Adapter<com.example.joy.adapte
 
 
 
-        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+        holder.removeTv.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onLongClick(View v) {
-
+            public void onClick(View v) {
                 deleteItem(uid,id);
-
-                return false;
             }
         });
-       // FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-
     }
 
 
@@ -155,7 +150,7 @@ public class AdapterCartItem extends RecyclerView.Adapter<com.example.joy.adapte
     class HolderCartItem extends RecyclerView.ViewHolder{
 
         //ui view of row_cartitem.xml
-        private TextView itemTitleTv,itemPriceTv,itemQuantityTv,finalPrice;
+        private TextView itemTitleTv,itemPriceTv,itemQuantityTv,finalPrice, removeTv;
         //private ImageButton decrementBtn,incrementBtn;
         private ImageView image;
 
@@ -164,6 +159,7 @@ public class AdapterCartItem extends RecyclerView.Adapter<com.example.joy.adapte
 
             itemTitleTv = itemView.findViewById(R.id.itemName);
             itemPriceTv = itemView.findViewById(R.id.itemPrice);
+            removeTv = itemView.findViewById(R.id.removeTv);
             itemQuantityTv = itemView.findViewById(R.id.quantityTv);
             finalPrice = itemView.findViewById(R.id.finalPrice);
 //            incrementBtn = itemView.findViewById(R.id.incrementBtn);

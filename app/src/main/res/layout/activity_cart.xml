@@ -7,7 +7,49 @@
     tools:context=".activities.CartActivity"
     android:orientation="vertical">
 
+    <RelativeLayout
+        android:id="@+id/rl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Order To"
+        android:textColor="@color/black"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:id="@+id/shopNameTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="joy shop"
+        android:textColor="@color/pink"
+        android:textSize="17sp"
+        android:paddingBottom="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_below="@id/tv"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="2dp"/>
+
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/cart"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:layout_below="@+id/shopNameTv"
+            android:text="Cart is empty"
+            android:gravity="center"/>
+
+    </RelativeLayout>
+
     <ScrollView
+        android:id="@+id/sl"
+        android:layout_below="@id/rl"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
@@ -16,100 +58,242 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/cartItemRv"
                 android:layout_width="match_parent"
-                android:padding="10dp"
+                android:padding="5dp"
+                android:layout_marginBottom="10dp"
                 android:layout_height="wrap_content"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/row_cartitem"/>
 
+            <TextView
+                android:id="@+id/addressDetails"
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:layout_marginTop="10dp"
+                android:background="#d9dcde"
+                android:layout_below="@id/cartItemRv"
+                android:layout_centerHorizontal="true"
+                android:padding="2dp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:gravity="center_horizontal"/>
+
+            <RadioGroup
+                android:id="@+id/address"
+                android:layout_below="@id/addressDetails"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <RadioButton
+                android:id="@+id/homeAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/cartItemRv"
+                android:text="Home Address"
+                android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_down_24"
+                android:buttonTint="@color/pink"
+                android:textColor="@color/black"
+                android:textSize="17sp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"/>
 
 
-        <TextView
-            android:id="@+id/sTotalLabelTv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingTop="5dp"
-            android:paddingLeft="15dp"
-            android:textSize="17sp"
-            android:layout_below="@id/cartItemRv"
-            android:text="Sub Total:"
-            android:textStyle="bold"
-            android:textColor="#000"/>
+            <TextView
+                android:id="@+id/addressTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/homeAddress"
+                android:layout_marginLeft="15dp"
+                android:text="Address"
+                android:textSize="15sp"/>
 
-        <TextView
-            android:id="@+id/sTotalTv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingTop="5dp"
-            android:paddingRight="15dp"
-            android:textSize="17sp"
-            android:text="₹0.00"
-            android:textStyle="bold"
-            android:layout_below="@id/cartItemRv"
-            android:layout_alignParentEnd="true"
-            android:textColor="#000"/>
 
-        <TextView
-            android:id="@+id/dFeeLabelTv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingTop="5dp"
-            android:paddingLeft="15dp"
-            android:textSize="17sp"
-            android:text="Delivery Fee:"
-            android:textStyle="bold"
-            android:layout_below="@id/sTotalLabelTv"
-            android:textColor="#000"/>
+            <RadioButton
+                android:id="@+id/otherAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add delivery address"
+                android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_down_24"
+                android:textSize="17sp"
+                android:textColor="@color/black"
+                android:layout_marginLeft="8dp"
+                android:buttonTint="@color/pink"
+                android:layout_below="@id/addressTv"
+                android:layout_marginTop="15dp"/>
 
-        <TextView
-            android:id="@+id/dFeeTv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingTop="5dp"
-            android:paddingRight="15dp"
-            android:textSize="17sp"
-            android:text="₹0"
-            android:layout_below="@id/sTotalTv"
-            android:textStyle="bold"
-            android:layout_alignParentEnd="true"
-            android:textColor="#000"/>
 
-        <TextView
-            android:id="@+id/totalLabelTv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingTop="5dp"
-            android:paddingLeft="15dp"
-            android:textSize="17sp"
-            android:text="Total Price:"
-            android:textStyle="bold"
-            android:layout_below="@id/dFeeLabelTv"
-            android:textColor="#000"/>
+            <TextView
+                android:id="@+id/tttv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/pink"
+                android:textSize="12sp"
+                android:layout_marginLeft="15dp"
+                android:text="Only if your delivery address is not your home address"
+                android:layout_below="@+id/otherAddress"/>
 
-        <TextView
-            android:id="@+id/totalTv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingTop="5dp"
-            android:paddingRight="15dp"
-            android:textSize="17sp"
-            android:text="₹0.00"
-            android:layout_below="@id/dFeeTv"
-            android:textStyle="bold"
-            android:layout_alignParentEnd="true"
-            android:textColor="#000"/>
+            <EditText
+                android:id="@id/addressEt"
+                android:layout_below="@+id/tttv"
+                android:layout_width="match_parent"
+                android:layout_margin="8dp"
+                android:textColorHint="#c3c3c3"
+                android:layout_height="50dp"
+                android:hint="Type here..."
+                android:padding="10dp"
+                android:backgroundTint="@color/pink"
+                android:textColor="@color/black"
+                android:textSize="16sp"/>
 
-        <Button
-            android:id="@+id/checkoutBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/pink"
-            android:layout_margin="15dp"
-            android:layout_below="@id/totalTv"
-            android:text="Confirm Order"
-            android:textColor="@color/white"/>
+            </RadioGroup>
+
+
+            <TextView
+                android:id="@+id/payment1"
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:layout_marginTop="10dp"
+                android:background="#d9dcde"
+                android:layout_below="@id/address"
+                android:layout_centerHorizontal="true"
+                android:padding="2dp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:gravity="center_horizontal"/>
+
+            <RadioGroup
+                android:id="@+id/payment"
+                android:layout_below="@id/payment1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+            <RadioButton
+                android:id="@+id/cod"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="@color/pink"
+                android:text="Cash on delivery"
+                android:layout_marginLeft="8dp"
+                android:layout_below="@id/address"
+                android:layout_marginTop="5dp"
+                android:textSize="17sp"/>
+
+            <RadioButton
+                android:id="@+id/op"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="@color/pink"
+                android:text="Online Payment"
+                android:layout_marginLeft="8dp"
+                android:layout_below="@id/cod"
+                android:layout_marginTop="5dp"
+                android:textSize="17sp"/>
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/price"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="#d9dcde"
+                android:layout_below="@id/payment"
+                android:text="Price details"
+                android:layout_centerHorizontal="true"
+                android:padding="2dp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:gravity="center_horizontal"/>
+
+            <TextView
+                android:id="@+id/sTotalLabelTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                android:layout_marginTop="15dp"
+                android:paddingLeft="15dp"
+                android:layout_below="@id/price"
+                android:textSize="17sp"
+                android:text="Sub Total:"
+                android:textColor="#000"/>
+
+            <TextView
+                android:id="@+id/sTotalTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                android:paddingRight="15dp"
+                android:textSize="17sp"
+                android:text="₹0.00"
+                android:layout_marginTop="15dp"
+                android:layout_below="@id/price"
+                android:layout_alignParentEnd="true"
+                android:textColor="#000"/>
+
+            <TextView
+                android:id="@+id/dFeeLabelTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                android:paddingLeft="15dp"
+                android:textSize="17sp"
+                android:text="Delivery Fee:"
+                android:layout_below="@id/sTotalLabelTv"
+                android:textColor="#000"/>
+
+            <TextView
+                android:id="@+id/dFeeTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                android:paddingRight="15dp"
+                android:textSize="17sp"
+                android:text="₹0"
+                android:layout_below="@id/sTotalTv"
+                android:layout_alignParentEnd="true"
+                android:textColor="#000"/>
+
+            <TextView
+                android:id="@+id/totalLabelTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                android:paddingLeft="15dp"
+                android:textSize="17sp"
+                android:text="Total Price:"
+                android:textStyle="bold"
+                android:layout_below="@id/dFeeLabelTv"
+                android:textColor="#000"/>
+
+            <TextView
+                android:id="@+id/totalTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                android:paddingRight="15dp"
+                android:textSize="17sp"
+                android:text="₹0.00"
+                android:layout_below="@id/dFeeTv"
+                android:textStyle="bold"
+                android:layout_alignParentEnd="true"
+                android:textColor="#000"/>
+
+            <Button
+                android:id="@+id/checkoutBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_rect_11"
+                android:layout_margin="15dp"
+                android:layout_below="@id/totalTv"
+                android:textSize="15sp"
+                android:text="Confirm Order"
+                android:textColor="@color/white"/>
 
         </RelativeLayout>
 

@@ -30,7 +30,7 @@ public class OrderDetailsUserActivity extends AppCompatActivity {
 
     //ui views
     private ImageButton backBtn,writeReviewBtn;
-    private TextView orderIdTv,dateTv,orderStatusTv,shopNameTv,totalItemsTv,amountTv,addressTv,phoneTv,dFeeTv;
+    private TextView orderIdTv,dateTv,orderStatusTv,shopNameTv,totalItemsTv,amountTv,addressTv,phoneTv,dFeeTv,method;
     private RecyclerView itemsRv;
 
     private FirebaseAuth firebaseAuth;
@@ -51,6 +51,7 @@ public class OrderDetailsUserActivity extends AppCompatActivity {
         orderStatusTv = findViewById(R.id.orderStatusTv);
         shopNameTv = findViewById(R.id.shopNameTv);
         totalItemsTv = findViewById(R.id.totalItemsTv);
+        method = findViewById(R.id.method);
         phoneTv = findViewById(R.id.phoneTv);
         amountTv = findViewById(R.id.amountTv);
         dFeeTv = findViewById(R.id.dFeeTv);
@@ -164,6 +165,7 @@ public class OrderDetailsUserActivity extends AppCompatActivity {
                         String latitude = ""+dataSnapshot.child("latitude").getValue();
                         String longitude = ""+dataSnapshot.child("longitude").getValue();
                         String address = ""+dataSnapshot.child("address").getValue();
+                        String payment = ""+dataSnapshot.child("payment").getValue();
 
                         //conver timestamp to proper formate
                         Calendar calendar = Calendar.getInstance();
@@ -187,6 +189,7 @@ public class OrderDetailsUserActivity extends AppCompatActivity {
                         dateTv.setText(formatedDate);
                         dFeeTv.setText("₹" +deliveryFee);
                         addressTv.setText(address);
+                        method.setText(payment);
 
                         //findAddress(latitude,longitude);
                     }

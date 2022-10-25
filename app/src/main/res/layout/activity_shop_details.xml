@@ -161,7 +161,7 @@
             android:layout_marginLeft="2dp"
             android:layout_marginTop="15dp"
             android:layout_toRightOf="@+id/imageView"
-            android:text="Best offers for you"
+            android:text="Best offers"
             android:layout_below="@+id/categoryGl"
             android:textColor="@color/black"
             android:textSize="18sp"
