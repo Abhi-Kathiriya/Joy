@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activities.SettingActivity">
+
+    <!--toolbar-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/pink"
+        android:padding="10dp">
+
+        <!--back button-->
+        <ImageButton
+            android:id="@+id/backBtn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            app:srcCompat="@drawable/ic_baseline_arrow"
+            android:background="@null"/>
+
+        <!--title-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Settings"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"/>
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!--Switch enable/disable notifications-->
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/fcmSwitch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:button="@color/pink"
+            android:paddingStart="10dp"
+            android:paddingTop="10dp"
+            android:textSize="16sp"
+            android:paddingEnd="10dp"
+            android:text="Push Notifications"/>
+
+        <!--notification status: enable/disable-->
+        <TextView
+            android:id="@+id/notificationStatusTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="10dp"
+            android:layout_below="@id/fcmSwitch"
+            android:text="Notifications are disabled"
+            android:textColor="#868686"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#868686"
+            android:layout_below="@id/notificationStatusTv"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

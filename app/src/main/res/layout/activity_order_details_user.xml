@@ -346,6 +346,37 @@
                 android:textColor="@color/pink"
                 android:layout_marginBottom="15dp"/>
 
+            <TextView
+                android:id="@+id/note"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/pink"
+                android:layout_below="@id/amountTv"
+                android:layout_marginTop="2dp"
+                android:paddingTop="5dp"
+                android:paddingLeft="15dp"/>
+
+            <TextView
+                android:id="@+id/note1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/pink"
+                android:layout_below="@id/amountTv"
+                android:layout_marginTop="2dp"
+                android:paddingLeft="15dp"/>
+
+            <Button
+                android:id="@+id/cancelOrder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Cancel order"
+                android:background="#e8e7e6"
+                android:layout_margin="15dp"
+                android:textSize="15sp"
+                android:textAllCaps="false"
+                android:layout_below="@id/note1" />
+
+
         </RelativeLayout>
 
     </ScrollView>

@@ -15,6 +15,12 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.joy.Constants;
 import com.example.joy.R;
 import com.example.joy.adapter.AdapterOrderedItem;
 import com.example.joy.model.ModelOrderedItem;
@@ -27,9 +33,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Map;
 
 public class OrderDetailsSellerActivity extends AppCompatActivity {
 
@@ -99,7 +108,7 @@ public class OrderDetailsSellerActivity extends AppCompatActivity {
         });
     }
     private void editOrderStatusDialog() {
-        final String[] options = {"In Progress", "Completed", "Cancelled"};
+        final String[] options = {"Ordered", "Packed", "Arriving today", "Delivered"};
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Edit Order Status:")
                 .setItems(options, new DialogInterface.OnClickListener() {
@@ -123,8 +132,10 @@ public class OrderDetailsSellerActivity extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
+                        String message = "Order is now "+selectedOption;
                         //status updated
-                        Toast.makeText(OrderDetailsSellerActivity.this, "Order is now"+selectedOption, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(OrderDetailsSellerActivity.this, message, Toast.LENGTH_SHORT).show();
+                       // prepareNotificationMessage(orderId,message);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -211,10 +222,16 @@ public class OrderDetailsSellerActivity extends AppCompatActivity {
                         calendar.setTimeInMillis(Long.parseLong(orderTime));
                         String formatedDate = DateFormat.format("dd/MM/yyyy   hh:mm a",calendar).toString();//e.g. 09/04/2021 12:00 PM
 
-                        if (orderStatus.equals("In Progress")){
+                        if (orderStatus.equals("Ordered")){
                             orderStatusTv.setTextColor(getResources().getColor(R.color.colorPrimary));
                         }
-                        else if (orderStatus.equals("Completed")){
+                        else if (orderStatus.equals("Packed")){
+                            orderStatusTv.setTextColor(getResources().getColor(R.color.colorPrimary));
+                        }
+                        else if (orderStatus.equals("Arriving today")){
+                            orderStatusTv.setTextColor(getResources().getColor(R.color.colorPrimary));
+                        }
+                        else if (orderStatus.equals("Delivered")){
                             orderStatusTv.setTextColor(getResources().getColor(R.color.green));
                         }
                         else if (orderStatus.equals("Cancelled")){
@@ -270,5 +287,64 @@ public class OrderDetailsSellerActivity extends AppCompatActivity {
                     }
                 });
     }
+    private void prepareNotificationMessage(String orderId,String message){
+        //when user seller changes order status InProgress/Cancelled/Completed, send notification to buyer
 
+        //prepare data for notification
+        String NOTIFICATION_TOPIC = "/topics/" + Constants.FCM_TOPIC;
+        String NOTIFICATION_TITLE = "Your Order" + orderId;
+        String NOTIFICATION_MESSAGE = "" + message;
+        //String NOTIFICATION_TYPE = "OrderStatusChanged";
+
+        //prepare json (what to send and where to send)
+        JSONObject notificationJo = new JSONObject();
+        JSONObject notificationBodyJo = new JSONObject();
+        try {
+            //what to send
+            notificationBodyJo.put("notificationType", "OrderStatusChanged");
+            notificationBodyJo.put("buyerUid", orderBy);
+            notificationBodyJo.put("sellerUid", firebaseAuth.getUid());
+            notificationBodyJo.put("orderId", orderId);
+            notificationBodyJo.put("notificationTitle", NOTIFICATION_TITLE);
+            notificationBodyJo.put("notificationMessage", NOTIFICATION_MESSAGE);
+
+            //where to send
+            notificationJo.put("to",NOTIFICATION_TOPIC);
+            notificationJo.put("date",notificationBodyJo);
+        }
+        catch (Exception e){
+            Toast.makeText(this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+
+        sendFcmNotification(notificationJo);
+    }
+
+    private void sendFcmNotification(JSONObject notificationJo) {
+        //send volley request
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest("https://fcm.googleapis.com/fcm/send", notificationJo, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                //notification sent
+                Toast.makeText(OrderDetailsSellerActivity.this, "notification send", Toast.LENGTH_SHORT).show();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //notification failed
+            }
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+
+                //put required headers
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Content-Type", "application/json");
+                headers.put("Authorization", "key=" + Constants.FCM_KEY);
+                return headers;
+            }
+        };
+
+        //enqueue the volley request
+        Volley.newRequestQueue(this).add(jsonObjectRequest);
+    }
 }

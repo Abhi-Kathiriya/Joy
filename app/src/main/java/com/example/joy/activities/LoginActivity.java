@@ -92,6 +92,7 @@ public class LoginActivity extends AppCompatActivity {
         }
         if(TextUtils.isEmpty(password)){
             Toast.makeText(this,"Enter Password...",Toast.LENGTH_SHORT).show();
+            return;
         }
         progressDialog.setMessage("Logging In...");
         progressDialog.show();

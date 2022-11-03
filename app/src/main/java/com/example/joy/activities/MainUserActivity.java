@@ -173,7 +173,21 @@ public class MainUserActivity extends AppCompatActivity implements NavigationVie
             //intent.putExtra("shopId",firebaseAuth.getUid());
             startActivity(intent);
 
-        } else if (id == R.id.nav_logout) {
+        } else if (id == R.id.nav_privacy) {
+
+            Intent intent = new Intent(MainUserActivity.this, PolicyActivity.class);
+            //intent.putExtra("shopId",firebaseAuth.getUid());
+            startActivity(intent);
+
+        }
+//        else if (id == R.id.nav_setting) {
+//
+//            Intent intent = new Intent(MainUserActivity.this, SettingActivity.class);
+//            //intent.putExtra("shopId",firebaseAuth.getUid());
+//            startActivity(intent);
+//
+//        }
+        else if (id == R.id.nav_logout) {
             android.app.AlertDialog.Builder builder =new android.app.AlertDialog.Builder(MainUserActivity.this);
             builder.setTitle("Alert !")
                     .setMessage("Are you sure you want to logout?")

@@ -18,7 +18,9 @@
         android:theme="@style/Theme.Joy"
         tools:ignore="MissingClass"
         tools:replace="android:theme">
-        <activity android:name=".activities.ShopReviewActivity"></activity>
+        <activity android:name=".activities.SettingActivity" />
+        <activity android:name=".activities.PolicyActivity" />
+        <activity android:name=".activities.ShopReviewActivity" />
         <activity android:name=".activities.WriteReviewActivity" />
         <activity android:name=".activities.OrderDetailsUserActivity" />
         <activity android:name=".activities.OrderDetailsSellerActivity" />
@@ -53,6 +55,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service
+            android:name=".MyFirebaseMessaging"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
 
         <meta-data
             android:name="preloaded_fonts"

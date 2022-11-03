@@ -20,6 +20,12 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.joy.Constants;
 import com.example.joy.R;
 import com.example.joy.adapter.AdapterCartItem;
 import com.example.joy.model.ModelCartItem;
@@ -235,7 +241,7 @@ public class CartActivity extends AppCompatActivity implements PaymentResultList
         final HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("orderId", "" + timestamp);
         hashMap.put("orderTime", "" + timestamp);
-        hashMap.put("orderStatus", "In Progress");//in progress/completed/cancelled
+        hashMap.put("orderStatus", "Ordered");//in progress/completed/cancelled
         hashMap.put("orderCost", "" + cost);
         hashMap.put("orderBy", "" + firebaseAuth.getUid());
         hashMap.put("orderTo", "" + shopUid);
@@ -279,9 +285,7 @@ public class CartActivity extends AppCompatActivity implements PaymentResultList
                         progressDialog.dismiss();
                         Toast.makeText(CartActivity .this,"Order Placed Successfully...",Toast.LENGTH_SHORT).
                                 show();
-
                         deleteItem();
-
                         //after placing order open order details page
                         //open order details,we need to keys there,orderTo
                         Intent intent = new Intent(CartActivity.this, SuccessActivity.class);
@@ -289,6 +293,8 @@ public class CartActivity extends AppCompatActivity implements PaymentResultList
                         intent.putExtra("orderId",timestamp);
                         intent.putExtra("orderBy",firebaseAuth.getUid());
                         startActivity(intent);
+
+                        //prepareNotificationMessage(timestamp);
                     }
 
                 })
@@ -326,7 +332,30 @@ public class CartActivity extends AppCompatActivity implements PaymentResultList
                             sum += pValue;
 
                             sTotalTv.setText(String.valueOf("₹"+sum));
+                            int finalSum = sum;
 
+                            DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
+                            ref.child(shopUid).addValueEventListener(new ValueEventListener(){
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    //get shop data
+                                    deliveryFee = ""+dataSnapshot.child("deliveryFee").getValue();
+
+                                    int d = Integer.parseInt(deliveryFee);
+                                    int s = Integer.parseInt(String.valueOf(finalSum));
+                                    int cost1 = finalSum + d;//remove ₹ if contains
+
+                                    cod.setEnabled(cost1 <= 2000);
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError){
+
+                                }
+                            });
+//                            String cost1 = sum + deliveryFee;//remove ₹ if contains
+//                            int cost2 = Integer.parseInt(cost1);
+//                            cod.setEnabled(cost2 <= 2000);
                             //allTotalPriceTv.setText("₹"+(sum + Double.parseDouble(deliveryFee.replace("₹", ""))));
                             loadShopDetails(sum);
                         }
@@ -461,6 +490,7 @@ public class CartActivity extends AppCompatActivity implements PaymentResultList
                 allTotalPriceTv.setText("₹"+(sum + Double.parseDouble(deliveryFee.replace("₹", ""))));
                 shopNameTv.setText(shopName);
 
+
             }
 
             @Override
@@ -501,6 +531,74 @@ public class CartActivity extends AppCompatActivity implements PaymentResultList
                 });
     }
 
+    private void prepareNotificationMessage(String orderId){
+        //when user places order, send notification to seller
 
+        //prepare data for notification
+        String NOTIFICATION_TOPIC = "/topics/" + Constants.FCM_TOPIC;
+        String NOTIFICATION_TITLE = "New Order" + orderId;
+        String NOTIFICATION_MESSAGE = "Congratulations...! You have new order.";
+        //String NOTIFICATION_TYPE = "NewOrder";
+
+        //prepare json (what to send and where to send)
+        JSONObject notificationJo = new JSONObject();
+        JSONObject notificationBodyJo = new JSONObject();
+        try {
+            //what to send
+            notificationBodyJo.put("notificationType", "NewOrder");
+            notificationBodyJo.put("buyerUid", firebaseAuth.getUid());
+            notificationBodyJo.put("sellerUid", shopUid);
+            notificationBodyJo.put("orderId", orderId);
+            notificationBodyJo.put("notificationTitle", NOTIFICATION_TITLE);
+            notificationBodyJo.put("notificationMessage", NOTIFICATION_MESSAGE);
+
+            //where to send
+            notificationJo.put("to",NOTIFICATION_TOPIC);
+            notificationJo.put("date",notificationBodyJo);
+        }
+        catch (Exception e){
+            Toast.makeText(this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+
+        sendFcmNotification(notificationJo,orderId);
+    }
+
+    private void sendFcmNotification(JSONObject notificationJo, final String orderId) {
+        //send volley request
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest("https://fcm.googleapis.com/fcm/send", notificationJo, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                //after sending fcm start order details activity
+                Intent intent = new Intent(CartActivity.this, SuccessActivity.class);
+                intent.putExtra("orderTo",shopUid);
+                intent.putExtra("orderId",orderId);
+                intent.putExtra("orderBy",firebaseAuth.getUid());
+                startActivity(intent);
+            }
+        },new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //if failed sending fcm,still start order details activity
+                Intent intent = new Intent(CartActivity.this, SuccessActivity.class);
+                intent.putExtra("orderTo",shopUid);
+                intent.putExtra("orderId",orderId);
+                intent.putExtra("orderBy",firebaseAuth.getUid());
+                startActivity(intent);
+            }
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+
+                //put required headers
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Content-Type", "application/json");
+                headers.put("Authorization", "key=" + Constants.FCM_KEY);
+                return headers;
+            }
+        };
+
+        //enqueue the volley request
+        Volley.newRequestQueue(this).add(jsonObjectRequest);
+    }
 
 }

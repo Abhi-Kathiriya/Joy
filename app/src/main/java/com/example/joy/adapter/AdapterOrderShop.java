@@ -67,10 +67,16 @@ public class AdapterOrderShop extends RecyclerView.Adapter<com.example.joy.adapt
         holder.statusTv.setText(orderStatus);
         holder.orderIdTv.setText("Order ID: "+orderId);
         //change order status text color
-        if (orderStatus.equals("In Progress")){
+        if (orderStatus.equals("Ordered")){
             holder.statusTv.setTextColor(context.getResources().getColor(R.color.colorPrimary));
         }
-        else if (orderStatus.equals("Completed")){
+        else if (orderStatus.equals("Packed")){
+            holder.statusTv.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+        }
+        else if (orderStatus.equals("Arriving today")){
+            holder.statusTv.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+        }
+        else if (orderStatus.equals("Delivered")){
             holder.statusTv.setTextColor(context.getResources().getColor(R.color.green));
         }
         else if (orderStatus.equals("Cancelled")){
